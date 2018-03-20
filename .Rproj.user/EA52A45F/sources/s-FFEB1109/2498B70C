@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1521557169664.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "2498B70C",
+    "lastKnownWriteTime" : 1521558119,
+    "last_content_update" : 1521558119208,
+    "path" : "C:/Users/Shixiang Wang/Desktop/websites/config.toml",
+    "project_path" : "config.toml",
+    "properties" : {
+        "cursorPosition" : "2,20",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "toml"
+}
