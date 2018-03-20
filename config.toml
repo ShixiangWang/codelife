@@ -34,4 +34,4 @@ footnotereturnlinkcontents = "↩"
 
 [params]
     description = "A website built through Hugo and blogdown."
-    footer = "&copy; [Shixiang Wang](https://www.shixiangwang.top) 2017 -- 2018 | [Github](https://github.com/ShixiangWang) | [Twitter](https://twitter.com/ShixiangWang)"
+    footer = "&copy; [Shixiang Wang](https://www.shixiangwang.top) 2018 -- 2018 | [Github](https://github.com/ShixiangWang) | [Twitter](https://twitter.com/ShixiangWang)"
