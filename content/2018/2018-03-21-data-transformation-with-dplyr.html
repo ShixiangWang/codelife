@@ -13,7 +13,14 @@ tags:
 
 <div id="TOC">
 <ul>
-<li><a>准备</a></li>
+<li><a>准备</a><ul>
+<li><a href="#nycflights13">nycflights13</a></li>
+<li><a href="#dplyr">dplyr基础</a></li>
+</ul></li>
+<li><a href="#filter">使用filter()过滤行</a><ul>
+<li><a>比较</a></li>
+<li><a>逻辑操作符</a></li>
+</ul></li>
 </ul>
 </div>
 
@@ -34,4 +41,139 @@ library(tidyverse)
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <p>注意一下你导入<code>tidyverse</code>包时给出的冲突信息（Conflicts），它告诉你<strong>dplyr</strong>覆盖了R基础包中的函数。<strong>如果你想要在载入<code>tidyverse</code>包后仍然使用这些函数，你需要使用函数的全名<code>stats::filter()</code>和<code>stats::lag()</code>进行调用。</strong></p>
+<section id="nycflights13" class="level3">
+<h3>nycflights13</h3>
+<p>我们将使用<code>nycflights13::flights</code>来探索<code>dplyr</code>包基本的数据操作<strong>动词</strong>。该数据集包含2013年336,776次航班起飞数据，来自美国交通统计局。</p>
+<pre class="r"><code>flights
+## # A tibble: 336,776 x 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##  1  2013     1     1      517            515      2.00      830
+##  2  2013     1     1      533            529      4.00      850
+##  3  2013     1     1      542            540      2.00      923
+##  4  2013     1     1      544            545     -1.00     1004
+##  5  2013     1     1      554            600     -6.00      812
+##  6  2013     1     1      554            558     -4.00      740
+##  7  2013     1     1      555            600     -5.00      913
+##  8  2013     1     1      557            600     -3.00      709
+##  9  2013     1     1      557            600     -3.00      838
+## 10  2013     1     1      558            600     -2.00      753
+## # ... with 336,766 more rows, and 12 more variables: sched_arr_time &lt;int&gt;,
+## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,
+## #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
+## #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<p>与基本包显示的普通数据集输出不同，这里适配地显示了在一个屏幕前几行和所有的列（我们可以使用<code>View(flights）</code>在Rstudio中查看数据集的所有信息。输出显示不同的原因是这个数据集是一个<em>Tibble</em>。<strong>Tibbles</strong>都是数据框<code>data.frame</code>，但经过改良以便于更好（在<code>tidyverse</code>生态中）工作。现在我们不必纠结于这些差异，在后续内容中我们会进行学习。</p>
+<p>你可能已经注意到每个列名下面有<strong>三到四个字母的缩写</strong>。它们描述了每个变量的类型：</p>
+<ul>
+<li><code>int</code>代表整数</li>
+<li><code>dbl</code>代表浮点数或者实数</li>
+<li><code>chr</code>代表字符向量或者字符串</li>
+<li><code>dttm</code>代表日期-时间</li>
+</ul>
+<p>还有其他三种数据类型在本部分不会使用到，但后续我们会接触：</p>
+<ul>
+<li><code>lgl</code>代表逻辑向量，只含<code>TRUE</code>和<code>FALSE</code></li>
+<li><code>fctr</code>代表因子，R用它来代表含固定可能值的分类变量</li>
+<li><code>date</code>代表日期</li>
+</ul>
+</section>
+<section id="dplyr" class="level3">
+<h3>dplyr基础</h3>
+<p>这部分我们学习5个关键的<code>dplyr</code>函数，它可以让我们解决遇到的大部分数据操作问题：</p>
+<ul>
+<li>根据值选择观察（记录），<code>filter()</code></li>
+<li>对行重新排序，<code>arrange()</code></li>
+<li>根据名字选择变量，<code>select()</code></li>
+<li>根据已知的变量创建新的变量，<code>mutate()</code></li>
+<li>将许多值塌缩为单个描述性汇总，<code>summarize()</code></li>
+</ul>
+<p>这些函数都可以通过<code>group_by()</code>衔接起来，该函数改变上述每个函数的作用域，<strong>从操作整个数据集到按组与组操作</strong>。这六个函数提供了数据操作语言的动词。</p>
+<p>所有的动词工作都非常相似：</p>
+<ol type="1">
+<li>第一个参数都是数据框</li>
+<li>随后的参数描述了使用变量名（不加引号）对数据框做什么</li>
+<li>结果是一个新的数据框</li>
+</ol>
+<p>这些属性一起便利地将多个简单步骤串联起来得到一个复杂的操作（结果）。让我们实际来看看这些动词是怎么工作的。</p>
+</section>
+</section>
+<section id="filter" class="level2">
+<h2>使用filter()过滤行</h2>
+<p><code>filter()</code>允许我们根据观测值来对数据集取子集。第一个参数是数据框的名字，第二和随后的参数是用于过滤数据框的表达式。</p>
+<p>比如，我们可以选择所有一月一号的航班：</p>
+<pre class="r"><code>filter(flights, month == 1, day == 1)
+## # A tibble: 842 x 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##  1  2013     1     1      517            515      2.00      830
+##  2  2013     1     1      533            529      4.00      850
+##  3  2013     1     1      542            540      2.00      923
+##  4  2013     1     1      544            545     -1.00     1004
+##  5  2013     1     1      554            600     -6.00      812
+##  6  2013     1     1      554            558     -4.00      740
+##  7  2013     1     1      555            600     -5.00      913
+##  8  2013     1     1      557            600     -3.00      709
+##  9  2013     1     1      557            600     -3.00      838
+## 10  2013     1     1      558            600     -2.00      753
+## # ... with 832 more rows, and 12 more variables: sched_arr_time &lt;int&gt;,
+## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,
+## #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
+## #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<p>这一行代码<code>dplyr</code>执行了过滤操作并返回了一个新的数据框。<strong>dplyr从不修改输入数据，所以如果你想要保存数据，必须使用<code>&lt;-</code>进行赋值</strong>：</p>
+<pre class="r"><code>jan1 &lt;- filter(flights, month == 1, day == 1)</code></pre>
+<p>R要么输出结果，要么将结果保存到一个变量。如果我们想要同时做到这一点，你可以把赋值放在括号里：</p>
+<pre class="r"><code>(dec25 &lt;- filter(flights, month == 12, day == 25))
+## # A tibble: 719 x 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##  1  2013    12    25      456            500     -4.00      649
+##  2  2013    12    25      524            515      9.00      805
+##  3  2013    12    25      542            540      2.00      832
+##  4  2013    12    25      546            550     -4.00     1022
+##  5  2013    12    25      556            600     -4.00      730
+##  6  2013    12    25      557            600     -3.00      743
+##  7  2013    12    25      557            600     -3.00      818
+##  8  2013    12    25      559            600     -1.00      855
+##  9  2013    12    25      559            600     -1.00      849
+## 10  2013    12    25      600            600      0         850
+## # ... with 709 more rows, and 12 more variables: sched_arr_time &lt;int&gt;,
+## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,
+## #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
+## #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<section class="level3">
+<h3>比较</h3>
+<p>想要有效地过滤，你必须知道怎么利用比较操作符来选择观测值。R提供了标准的比较符：<code>&gt;</code>,<code>&gt;=</code>,<code>&lt;=</code>,<code>!=</code>和<code>==</code>。</p>
+<p>如果你是初学R，一个常见的错误是用<code>=</code>而不是<code>==</code>来检测相等。如果这种情况发生了，你会收到报错信息：</p>
+<pre class="r"><code>filter(flights, month = 1)
+#&gt; Error: `month` (`month = 1`) must not be named, do you need `==`?</code></pre>
+<p>另一个你在使用<code>==</code>时可能遭遇的常见问题是<strong>浮点数</strong>。下面的结果可能会让你惊掉大牙：</p>
+<pre class="r"><code>sqrt(2) ^ 2 == 2
+## [1] FALSE
+1/49 * 49 == 1
+## [1] FALSE</code></pre>
+</section>
+<section class="level3">
+<h3>逻辑操作符</h3>
+<p><code>&amp;</code>是与，<code>|</code>是或，<code>!</code>是非。</p>
+<p>下面代码找到在十一月或十二月起飞的所有航班：</p>
+<pre class="r"><code>filter(flights, month == 11 | month == 12)
+## # A tibble: 55,403 x 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##  1  2013    11     1        5           2359      6.00      352
+##  2  2013    11     1       35           2250    105         123
+##  3  2013    11     1      455            500   -  5.00      641
+##  4  2013    11     1      539            545   -  6.00      856
+##  5  2013    11     1      542            545   -  3.00      831
+##  6  2013    11     1      549            600   - 11.0       912
+##  7  2013    11     1      550            600   - 10.0       705
+##  8  2013    11     1      554            600   -  6.00      659
+##  9  2013    11     1      554            600   -  6.00      826
+## 10  2013    11     1      554            600   -  6.00      749
+## # ... with 55,393 more rows, and 12 more variables: sched_arr_time &lt;int&gt;,
+## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,
+## #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
+## #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<p><strong>注意</strong>，你不能写成<code>filter(flights, month == 11 | 12)</code>，（虽然语义上讲的通）对于R而言，它会先计算<code>11|12</code>得到<code>1</code>，然后计算<code>month == 1</code>，这就不是我们需要的了！</p>
+</section>
 </section>
