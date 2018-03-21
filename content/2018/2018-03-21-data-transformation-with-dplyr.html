@@ -1,0 +1,36 @@
+---
+title: 使用dplyr进行数据转换
+author: 王诗翔
+date: '2018-03-21'
+slug: data-transformation-with-dplyr
+categories:
+  - R
+tags:
+  - learn
+  - notebook
+---
+
+
+<div id="TOC">
+<ul>
+<li><a>准备</a></li>
+</ul>
+</div>
+
+<p>该部分学习内容来自《R for Data Science》。</p>
+<p>在对数据进行可视化之前我们往往需要进行数据转换以得到可视化所需要的数据内容与格式。这里我们使用<code>dplyr</code>包操作2013年纽约市的航班起飞数据集（2013）。</p>
+<section class="level2">
+<h2>准备</h2>
+<p>这部分我们聚焦于如何使用<code>dplyr</code>包，除<code>ggplot2</code>的另一个<strong>tidyverse</strong>核心成员。我们将使用<code>nyclights13</code>数据包解释关键的概念并使用<code>ggplot2</code>帮助理解数据。</p>
+<pre class="r"><code># 导入包
+library(nycflights13) # 请确保在使用前已经安装好这些包
+library(tidyverse)
+## -- Attaching packages -------------------------------------------------------------------- tidyverse 1.2.1 --
+## √ ggplot2 2.2.1     √ purrr   0.2.4
+## √ tibble  1.4.1     √ dplyr   0.7.4
+## √ tidyr   0.7.2     √ stringr 1.2.0
+## √ readr   1.1.1     √ forcats 0.2.0
+## -- Conflicts ----------------------------------------------------------------------- tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+</section>
