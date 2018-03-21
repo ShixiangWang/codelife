@@ -7,8 +7,8 @@ categories:
   - R
   - 数据分析
 tags:
-  - learn
   - notebook
+  - dplyr
 ---
 
 ```{r setup, include=FALSE}
@@ -127,4 +127,95 @@ filter(flights, month == 11 | month == 12)
 ```
 
 **注意**，你不能写成`filter(flights, month == 11 | 12)`，（虽然语义上讲的通）对于R而言，它会先计算`11|12`得到`1`，然后计算`month == 1`，这就不是我们需要的了！
+
+解决这种问题的一种有用简写为`x %in% y `。这将选择符合`x`属于`y`的行（`x`是`y`中的一个值）。我们可以用它重写前面的代码：
+
+```{r, eval=FALSE}
+nov_dec <- filter(flights, month %in% c(11, 12))
+```
+
+
+### 缺失值
+
+**NA**代表未知值或者称为缺失值，它是能“传染”的，几乎任何涉及未知值的操作都会是一个未知值。
+
+```{r}
+NA > 5
+10 == NA
+NA + 10
+NA / 2
+```
+
+最让人困惑的结果是这个：
+
+```{r}
+NA == NA
+```
+
+最简单理解为什么这是`TRUE`的方式是带入一点语境：
+
+```{r}
+# 把x看作小明的年龄，我们不知道他多大
+x <- NA
+
+# 把y看作小红的年龄，我们不知道她多大
+y <- NA
+
+# 小明和小红一样大吗？
+x == y
+
+# 我们不知道
+```
+
+如果你想确定一个值是不是缺失了，使用`is.na()`：
+
+```{r}
+is.na(x)
+```
+
+`filter()`仅仅会包含条件是`TRUE`的行，把是`FALSE`或者`NA`的行排除。如果你想要保留缺失值，你可以显式地指定：
+
+```{r}
+df <- tibble(x = c(1, NA, 3))
+filter(df, x > 1)
+filter(df, is.na(x) | x > 1)
+```
+
+### 练习
+
+1. 寻找满足以下条件的所有航班：
+    * 有一次大于等于2小时的航班抵达延误
+    * 飞去Houston（IAH或者HOU）
+    * 航空公司为United，American或者Delta （应当缩写是UA和DL）
+    * 在夏天起飞（July，August和September）
+    * 抵达延误超过两小时，但起飞时间正常
+    * 起飞时间在午夜到6.a.m之间（包含）
+2. 另一个有用的**dplyr**过滤助手是`between()`函数。它是做什么的？你可以使用它简化用于解决前面问题的代码吗？
+3. 有多少航班有一个缺失的`dep_time`？其他缺失的变量有哪些？这些行表示什么呢？
+4. 为什么`NA ^ 0`不是缺失值？为什么`NA | TRUE`不是缺失值？为什么`FALSE & NA`不是缺失值？你可以弄懂它们的基本原理吗?
+
+
+```{r answer_filter}
+# 1
+# 有一次大于等于2小时的航班抵达延误？
+nrow(filter(flights, arr_delay >= 120))
+# 有很多抵达延误超过两小时的
+
+# 飞去Houston（IAH或者HOU）？
+nrow(filter(flights, dest %in% c("IAH", "HOU")))
+# 或者
+nrow(filter(flights, dest == "IAH" | dest == "HOU"))
+
+# 航空公司为United，American或者Delta （应当缩写是UA和DL）
+nrow(filter(flights, carrier %in% c("UA", "DL")))
+
+# 在夏天起飞（July，August和September）
+nrow(filter(flights, month >=7 & month <=9))
+
+# 抵达延误超过两小时，但起飞时间正常
+nrow(filter(flights, dep_delay == 0, arr_delay >= 120))
+
+# 起飞时间在午夜到6.a.m之间（包含）
+nrow(filter(flights, hour >= 0 & hour <= 6))
+```
 
