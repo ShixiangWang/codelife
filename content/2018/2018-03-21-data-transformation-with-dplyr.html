@@ -33,4 +33,5 @@ library(tidyverse)
 ## -- Conflicts ----------------------------------------------------------------------- tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
+<p>注意一下你导入<code>tidyverse</code>包时给出的冲突信息（Conflicts），它告诉你<strong>dplyr</strong>覆盖了R基础包中的函数。<strong>如果你想要在载入<code>tidyverse</code>包后仍然使用这些函数，你需要使用函数的全名<code>stats::filter()</code>和<code>stats::lag()</code>进行调用。</strong></p>
 </section>

@@ -24,3 +24,4 @@ library(nycflights13) # 请确保在使用前已经安装好这些包
 library(tidyverse)
 ```
 
+注意一下你导入`tidyverse`包时给出的冲突信息（Conflicts），它告诉你**dplyr**覆盖了R基础包中的函数。**如果你想要在载入`tidyverse`包后仍然使用这些函数，你需要使用函数的全名`stats::filter()`和`stats::lag()`进行调用。**
