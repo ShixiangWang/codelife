@@ -3,7 +3,7 @@ languageCode = "en-us"
 title = "Record life to a data scientist"
 theme = "hugo-xmin"
 googleAnalytics = ""
-disqusShortname = ""
+disqusShortname = "codelife-1"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 preserveTaxonomyNames = true
 footnotereturnlinkcontents = "↩"
@@ -34,4 +34,4 @@ footnotereturnlinkcontents = "↩"
 
 [params]
     description = "A website built through Hugo and blogdown."
-    footer = "&copy; [Shixiang Wang](https://www.shixiangwang.top) 2018 -- 2018 | [Github](https://github.com/ShixiangWang) | [Twitter](https://twitter.com/ShixiangWang)"
+    footer = "&copy; [Shixiang Wang](https://www.shixiangwang.top) 2018 -- 2018 | [Github](https://github.com/ShixiangWang) | [Twitter](https://twitter.com/ShixiangWang) | [简书](https://www.jianshu.com/u/b6608e27dc74)"
