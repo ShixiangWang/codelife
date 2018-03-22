@@ -1,0 +1,102 @@
+---
+title: "技术与艺术结合|生成rmd文章模板"
+author: 王诗翔
+date: "2018-03-23"
+slug: "combine-tech-with-art"
+categories: 
+    - R
+tags:
+    - Rmd
+    - post
+    - 博客
+    - Rstudio
+---
+
+
+<div id="TOC">
+<ul>
+<li><a>构建</a></li>
+<li><a>生成</a></li>
+<li><a>预览</a></li>
+</ul>
+</div>
+
+<p>写<code>rmd</code>或<code>md</code>文章时每次都需要写头文件信息或一些初始的配置，我们可以通过预先设定模板来简化这一过程。</p>
+<div class="section level2">
+<h2>构建</h2>
+<p>首先构建博文类型的模板。</p>
+<p>诗歌：</p>
+<pre><code>---
+title: &quot;诗之名&quot;
+author: &quot;王诗翔&quot;
+date: &quot;2018-03-23&quot;
+slug: to-do-a-dream
+categories:
+  - 小诗
+tags:
+  - 诗
+---
+
+&lt;center&gt;
+
+&lt;/center&gt;</code></pre>
+<p>技术文章：</p>
+<pre><code>---
+title: &quot;Put your title here&quot;
+author: 王诗翔
+date: &quot;2018-03-23&quot;
+slug: &quot;give a english slug for your post&quot;
+categories: 
+    - R
+tags:
+    - dplyr
+---
+</code></pre>
+</div>
+<div class="section level2">
+<h2>生成</h2>
+<p>我尝试用<code>git</code>图片来动态显示生成文档的过程。</p>
+<div class="figure">
+<img src="../figures/post_GIF.gif" alt="初始化技术博文" />
+<p class="caption">初始化技术博文</p>
+</div>
+<div class="figure">
+<img src="../figures/poem_GIF.gif" alt="初始化诗歌博文" />
+<p class="caption">初始化诗歌博文</p>
+</div>
+</div>
+<div class="section level2">
+<h2>预览</h2>
+<p>最后看下生成的<code>rmd</code>文档的效果吧~</p>
+<div class="figure">
+<img src="../figures/view_poem_GIF.gif" alt="预览网页" />
+<p class="caption">预览网页</p>
+</div>
+<p>如果你有渴望，手中的工具都能创造心中的一份诗意。</p>
+<hr />
+<p>最后提供下代码：</p>
+<pre class="r"><code>new_post &lt;- function(post_name=NULL, type = c(&#39;post&#39;, &#39;poem&#39;),
+                     template_path = getwd()){
+    if(is.null(post_name)){
+        stop(&quot;A post name must be given!&quot;)
+    }
+    
+    type &lt;- match.arg(type)
+    if (type == &quot;post&quot;){
+        template_name &lt;- &quot;post_template.Rmd&quot;
+        post_path &lt;- paste0(getwd(),&quot;/content/post/2018/&quot;) # modify path for you categories
+    }
+    if (type == &quot;poem&quot;){
+        template_name &lt;- &quot;poem_template.Rmd&quot;
+        post_path &lt;- paste0(getwd(),&quot;/content/poem/&quot;)
+    }
+    
+    
+    input_file   &lt;- paste(template_path,template_name, sep=&quot;/&quot;)
+    current_time &lt;- Sys.Date()
+    out_file     &lt;- paste0(post_path, current_time, &quot;-&quot;,post_name,&quot;.Rmd&quot;)
+    fl_content   &lt;- readLines(input_file)
+    writeLines(fl_content, out_file)
+    print(&quot;New Rmarkdown post creat successfully!&quot;)
+}</code></pre>
+</div>

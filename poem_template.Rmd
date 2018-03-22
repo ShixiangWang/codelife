@@ -1,7 +1,7 @@
 ---
 title: "诗之名"
 author: "王诗翔"
-date: "`r gsub(pattern = "^([0-9]*[0-9]) [A-Z]*$", "\\1", Sys.time())`"
+date: "`r Sys.Date()`"
 slug: to-do-a-dream
 categories:
   - 小诗

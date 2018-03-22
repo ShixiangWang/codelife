@@ -38,4 +38,9 @@ vignettes/*.pdf
 rsconnect/
 .Rproj.user
 
+# test post
 2018-03-22-test_post.Rmd
+
+# rmd template for new post
+#poem_template.Rmd
+#post_template.Rmd

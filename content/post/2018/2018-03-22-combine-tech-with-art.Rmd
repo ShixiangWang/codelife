@@ -1,0 +1,104 @@
+---
+title: "技术与艺术结合|生成rmd文章模板"
+author: 王诗翔
+date: "`r Sys.Date()`"
+slug: "combine-tech-with-art"
+categories: 
+    - R
+tags:
+    - Rmd
+    - post
+    - 博客
+    - Rstudio
+---
+
+
+
+写`rmd`或`md`文章时每次都需要写头文件信息或一些初始的配置，我们可以通过预先设定模板来简化这一过程。
+
+## 构建
+
+首先构建博文类型的模板。
+
+诗歌：
+
+```
+---
+title: "诗之名"
+author: "王诗翔"
+date: "`r Sys.Date()`"
+slug: to-do-a-dream
+categories:
+  - 小诗
+tags:
+  - 诗
+---
+
+<center>
+
+</center>
+```
+
+技术文章：
+
+```
+---
+title: "Put your title here"
+author: 王诗翔
+date: "`r Sys.Date()`"
+slug: "give a english slug for your post"
+categories: 
+    - R
+tags:
+    - dplyr
+---
+
+```
+
+## 生成
+
+我尝试用`git`图片来动态显示生成文档的过程。
+
+![初始化技术博文](../figures/post_GIF.gif)
+
+![初始化诗歌博文](../figures/poem_GIF.gif)
+
+## 预览
+
+最后看下生成的`rmd`文档的效果吧~
+
+![预览网页](../figures/view_poem_GIF.gif)
+
+
+如果你有渴望，手中的工具都能创造心中的一份诗意。
+
+***
+
+最后提供下代码：
+
+```r
+new_post <- function(post_name=NULL, type = c('post', 'poem'),
+                     template_path = getwd()){
+    if(is.null(post_name)){
+        stop("A post name must be given!")
+    }
+    
+    type <- match.arg(type)
+    if (type == "post"){
+        template_name <- "post_template.Rmd"
+        post_path <- paste0(getwd(),"/content/post/2018/") # modify path for you categories
+    }
+    if (type == "poem"){
+        template_name <- "poem_template.Rmd"
+        post_path <- paste0(getwd(),"/content/poem/")
+    }
+    
+    
+    input_file   <- paste(template_path,template_name, sep="/")
+    current_time <- Sys.Date()
+    out_file     <- paste0(post_path, current_time, "-",post_name,".Rmd")
+    fl_content   <- readLines(input_file)
+    writeLines(fl_content, out_file)
+    print("New Rmarkdown post creat successfully!")
+}
+```
