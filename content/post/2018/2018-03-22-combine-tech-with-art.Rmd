@@ -57,17 +57,17 @@ tags:
 
 ## 生成
 
-我尝试用`git`图片来动态显示生成文档的过程。
+我尝试用`gif`图片来动态显示生成文档的过程。
 
-![初始化技术博文](../figures/post_GIF.gif)
+![初始化技术博文](/figures/post_GIF.gif)
 
-![初始化诗歌博文](../figures/poem_GIF.gif)
+![初始化诗歌博文](/figures/poem_GIF.gif)
 
 ## 预览
 
 最后看下生成的`rmd`文档的效果吧~
 
-![预览网页](../figures/view_poem_GIF.gif)
+![预览网页](/figures/view_poem_GIF.gif)
 
 
 如果你有渴望，手中的工具都能创造心中的一份诗意。

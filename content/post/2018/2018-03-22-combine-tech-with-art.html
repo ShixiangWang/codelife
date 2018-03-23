@@ -22,7 +22,7 @@ tags:
 </div>
 
 <p>写<code>rmd</code>或<code>md</code>文章时每次都需要写头文件信息或一些初始的配置，我们可以通过预先设定模板来简化这一过程。</p>
-<div class="section level2">
+<section class="level2">
 <h2>构建</h2>
 <p>首先构建博文类型的模板。</p>
 <p>诗歌：</p>
@@ -52,26 +52,23 @@ tags:
     - dplyr
 ---
 </code></pre>
-</div>
-<div class="section level2">
+</section>
+<section class="level2">
 <h2>生成</h2>
-<p>我尝试用<code>git</code>图片来动态显示生成文档的过程。</p>
-<div class="figure">
-<img src="../figures/post_GIF.gif" alt="初始化技术博文" />
-<p class="caption">初始化技术博文</p>
-</div>
-<div class="figure">
-<img src="../figures/poem_GIF.gif" alt="初始化诗歌博文" />
-<p class="caption">初始化诗歌博文</p>
-</div>
-</div>
-<div class="section level2">
+<p>我尝试用<code>gif</code>图片来动态显示生成文档的过程。</p>
+<figure>
+<img src="/figures/post_GIF.gif" alt="初始化技术博文" /><figcaption>初始化技术博文</figcaption>
+</figure>
+<figure>
+<img src="/figures/poem_GIF.gif" alt="初始化诗歌博文" /><figcaption>初始化诗歌博文</figcaption>
+</figure>
+</section>
+<section class="level2">
 <h2>预览</h2>
 <p>最后看下生成的<code>rmd</code>文档的效果吧~</p>
-<div class="figure">
-<img src="../figures/view_poem_GIF.gif" alt="预览网页" />
-<p class="caption">预览网页</p>
-</div>
+<figure>
+<img src="/figures/view_poem_GIF.gif" alt="预览网页" /><figcaption>预览网页</figcaption>
+</figure>
 <p>如果你有渴望，手中的工具都能创造心中的一份诗意。</p>
 <hr />
 <p>最后提供下代码：</p>
@@ -99,4 +96,4 @@ tags:
     writeLines(fl_content, out_file)
     print(&quot;New Rmarkdown post creat successfully!&quot;)
 }</code></pre>
-</div>
+</section>
