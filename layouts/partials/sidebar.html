@@ -1,1 +1,37 @@
-<script type="text/javascript" src="//rf.revolvermaps.com/0/0/2.js?i=5tfi59ucloa&amp;m=8&amp;s=130&amp;c=ff0000&amp;t=1" async="async"></script>
+
+
+
+<!-- sidebar start -->
+<aside>
+  <ul>
+    {{ $currentPage := . }}
+    {{ range .Site.Menus.main }}
+      {{ if .HasChildren }}
+        <li class="{{ if $currentPage.HasMenuCurrent "main" . }}active{{ end }}">
+          <a href="#">
+            {{ .Pre }}
+            <span>{{ .Name }}</span>
+          </a>
+          <ul class="sub-menu">
+            {{ range .Children }}
+              <li class="{{ if $currentPage.IsMenuCurrent "main" . }}active{{ end }}">
+                <a href="{{ .URL }}">{{ .Name }}</a>
+            {{ end }}
+          </ul>
+      {{else}}
+        <li>
+          <a href="{{.URL}}">
+            {{ .Pre }}
+            <span>{{ .Name }}</span>
+          </a>
+      {{end}}
+    {{end}}
+    <li>
+      <a href="#" target="blank">Hardcoded Link 1</a>
+    <li>
+      <a href="#" target="blank">Hardcoded Link 2</a>
+  </ul>
+</aside>
+
+
+<script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=51zdev6aq4a&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
