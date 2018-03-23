@@ -12,6 +12,7 @@ tags:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE)
+Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
 options(digits=3)
 options(max.print=200)
 ```

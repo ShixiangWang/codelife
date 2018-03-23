@@ -217,5 +217,206 @@ nrow(filter(flights, dep_delay == 0, arr_delay >= 120))
 
 # 起飞时间在午夜到6.a.m之间（包含）
 nrow(filter(flights, hour >= 0 & hour <= 6))
+
+# 2
+# 先查看between()函数的用法
+help(between)
+# 发现它可以用来替换left <= x & x <= right 这种情况
+# 所以简化前面的结果就比较简单了
+# 举个例子，比如查7到9月的航班
+nrow(filter(flights, between(month, 7, 9)))
+
+# 3
+nrow(filter(flights, is.na(dep_time)))
+# 所以有8000+航班缺起飞时间咯
+# 接着看其他变量有缺失值没有
+nrow(filter(flights, is.na(arr_time)))
+nrow(filter(flights, is.na(arr_time) & is.na(dep_time)))
+# 有8255次起飞与降落时间都未知！！
+# 我猜测可能是航班取消了吧
+# 你可以谈谈你的看法，进行更多探索，在下方留。
+
+# 4
+NA ^ 0
+NA | TRUE
+FALSE | NA
+NA * 0
+
+# 就我所见，应该用类型强制转换来解释这个问题
+# 在解释性编程语言（R，Python）中，当操作涉及多个数据类型时
+# 语言本身会按照特定的规则进行转换。具体网上搜索。
+
 ```
 
+## 使用arrange()排列行
+
+`arrange()`函数工作原理和`filter()`相似，但它不是选择行，而是改变行的顺序。它使用一个数据框和一系列有序的列变量（或者更复杂的表达式）作为输入。如果你提供了超过一个列名，其他列对应着进行排序。
+
+```{r}
+arrange(flights, year, month, day)
+```
+
+
+使用`desc()`可以以逆序（降序）的方式排列：
+
+```{r}
+arrange(flights, desc(arr_delay))
+```
+
+缺失值会排到最后面：
+
+```{r}
+df <- tibble(x = c(5, 2, NA))
+arrange(df, x)
+arrange(df, desc(x))
+```
+
+### 练习
+
+1. 你怎么将所有的缺失值都排到最前面？（提示：使用`is.na()`）
+2. 给`flights`排序找到延时最多的航班；找到其中离开最早的。
+3. 给`flights`排序找到最快的航班。
+4. 哪一个航班时间最长？哪一个最短？
+
+```{r answer_arrange}
+# 1
+arrange(df, desc(is.na(x)))
+# 2
+# 迟到最久
+arrange(flights, desc(arr_delay))
+# 出发最早
+arrange(flights, dep_delay)
+
+# 3
+# 最快的航班排序
+arrange(flights, air_time)
+
+# 4
+# 最长的航班
+arrange(flights, desc(air_time))[1,]
+# 最快的航班
+arrange(flights, air_time)[1,]
+```
+
+## 使用select()选择列
+
+一般我们分析的原始数据集有非常多的变量（列），第一个我们要解决的问题就是缩小范围找到我们需要的数据（变量）。`select()`允许我们快速通过变量名对数据集取子集。
+
+```{r}
+# 根据名字选择列
+select(flights, year, month, day)
+
+# 选择year到day之间（包含本身）的所有列
+select(flights, year:day)
+
+# 选择那么除year到day的所有列
+select(flights, -(year:day))
+```
+
+有很多帮助函数可以使用在`select()`函数中：
+
+* `starts_with("abc")`匹配以"abc"开头的名字。
+* `ends_with("xyz")`匹配以"xyz"结尾的名字。
+* `contains("ijk")`匹配包含"ijk"的名字。
+* `matches("(.)\\1")`选择符合正则表达式的变量。这里是任意包含有重复字符的变量。
+* `num_range("x", 1:3)`匹配`x1`，`x2`，`x3`。
+
+运行`?select`查看更多详情。
+
+`select()`也可以用来重命名变量，但很少使用到，因为它会将所有未显示指定的变量删除掉。我们可以使用它的变体函数`rename()`来给变量重新命名：
+
+```{r}
+rename(flights, tail_num = tailnum)
+```
+
+`select()`的另外一个操作是与`everything()`帮助函数联合使用。当你有一大堆变量你想要移动到数据框开始（最左侧）时非常有用。
+
+```{r}
+select(flights, time_hour, air_time, everything())
+```
+
+### 练习
+
+1. 尽量用更多的方式从`flights`中选择`dep_time`,`dep_delay`，`arr_time`和`arr_delay`。
+2. 如果你多次包含同一变量名在`select()`函数里会发生什么呢？
+3. `one_of()`函数是用来做什么的？为什么它与下面这个向量结合使用会非常有用？
+```
+    var <- c(
+    "year", "month", "day", "dep_delay", "arr_delay"
+    )
+```
+4. 下面代码的运行结果会让你吃惊吗？这个`select`的帮助函数默认是怎样处理这种情况的呢？你怎样改变默认的情况？
+
+```{r answer_select}
+# 1
+# 基本select用法，使用:，使用-去除其他的，使用%in%等等
+
+# 2
+select(flights, year, year)
+# 只会选择一次
+
+# 3
+# `one_of()`函数
+vars <- c("year", "month", "day", "dep_delay", "arr_delay")
+select(flights,  one_of(vars))
+# 这种用法可以有效地按数据情况进行选择而不会报错
+
+# 4
+select(flights, contains("TIME"))
+# 看来函数没有找到`TIME`列，所以输出了所有列
+# 想要更改，我们要查看该函数的参数
+args(contains)
+```
+
+
+## 使用mutate()添加新变量
+
+除了选择已存在的列，另一个常见的操作是添加新的列。这就是`mutate()`函数的工作了。
+
+`mutate()`函数通常将新增变量放在数据集的最后面。为了看到新生成的变量，我们使用一个小的数据集。
+
+```{r}
+flights_sml <- select(flights,
+                      year:day,
+                      ends_with("delay"),
+                      distance,
+                      air_time)
+
+mutate(flights_sml,
+       gain = arr_delay - dep_delay,
+       speed = distance / air_time * 60)
+
+mutate(flights_sml,
+       gain = arr_delay - dep_delay,
+       hours = air_time / 60,
+       gain_per_hour = gain / hours)
+```
+
+如果你仅仅想要保存新的变量，使用`transmute()`：
+
+```{r}
+transmute(flights,
+          gain = arr_delay - dep_delay,
+          hours = air_time / 60,
+          gain_per_hour = gain / hours)
+```
+
+### 有用的创造函数
+
+有很多函数可以结合`mutate()`一起使用来创造新的变量。这些函数的一个关键属性就是**向量化**的：它必须使用一组向量值作为输入，然后返回相同长度的数值作为输出。我们没有办法将所有的函数都列举出来，这里选择一些被频繁使用的函数。
+
+**算术操作符**
+
+* 算术操作符本质都是向量化的函数，遵循“循环补齐”的规则。**如果一个参数比另一个参数短，它会自动扩展为后者同样的长度**。比如`air_time / 60`，`hours * 60`等等。
+
+**模运算**（%/%和%%）
+
+* `%/%`整除和`%%`取余。
+
+**对数**
+
+* `log()`，`log2()`和`log10()`
+
+**位移量/偏移量**
+
+* `lead()`和`lag()`
