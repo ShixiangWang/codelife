@@ -581,3 +581,95 @@ ggplot(data = delays, mapping = aes(x = delay)) +
 
 哇！居然有些飞机平均延时5个小时（300分钟）。
 
+绘制平均延时下航班数目的散点图可以呈现更多的信息：
+
+```{r}
+delays <- not_cancelled %>%
+    group_by(tailnum) %>%
+    summarize(
+        delay = mean(arr_delay, na.rm = TRUE),
+        n = n()
+    )
+
+ggplot(data = delays, mapping = aes(x = n, y = delay)) + 
+    geom_point(alpha = 1/10)
+```
+
+当航班数少时平均延时存在很大的变异，这并不奇怪。这个图的形状很有特征性：无论什么时候你按照组别绘制均值（或其他汇总量），你会看到变异会随着样本量的增加而减少。
+
+当你看到这种类型图时，过滤掉有很少数目的组别是很有用的，可以看到数据更多的模式和更少的极端值。这正是下面代码做的事情，它同时展示了整合`dplyr`与`ggplot2`的一种手动方式。突然从`%>%`转换到`+`可能会感觉有点伤，但习惯了就会感觉很便利啦：
+
+```{r}
+delays %>%
+    filter(n > 25) %>%
+    ggplot(mapping = aes(x = n, y = delay)) + 
+    geom_point(alpha = 1/10)
+```
+
+```{r check_lahman, include=FALSE, eval=TRUE}
+if(!require(Lahman)){
+    install.packages("Lahman")
+}
+```
+
+让我们看另一个例子：棒球运动中击球手的平均表现与上场击球次数的关系。这里我们使用来自**Lahman**包的数据计算每个选手平均成功率（击球平均得分数，击球数/尝试数）。
+
+当我画出击球手技能（用成功率衡量）与击球的机会数关系时，你会看到两种模式：
+
+* 数据点越多，变异越少
+* 选手技能和击球机会成正相关关系。这是因为队伍可以控制谁可以上场，很显然他们都会选自己最棒的选手：
+
+```{r}
+# 转换为tibble，看起来更舒服
+batting <- as.tibble(Lahman::Batting)
+
+batters <- batting %>%
+    group_by(playerID) %>%
+    summarize(
+        ba = sum(H, na.rm = TRUE) / sum(AB, na.rm = TRUE),
+        ab = sum(AB, na.rm = TRUE)
+    )
+
+batters %>% 
+    filter(ab > 100) %>%
+    ggplot(mapping = aes(x = ab, y = ba)) + 
+    geom_point() +
+    geom_smooth(se = FALSE)
+```
+
+
+### 有用的汇总函数
+
+仅仅使用均值、计数和求和这些函数就可以帮我做很多事情，但R提供了许多其他有用的汇总函数：
+
+**位置度量**
+
+* 我们已经使用过`mean()`函数求取平均值（总和除以长度），`median()`函数也非常有用，它会找到中位数。
+
+有时候整合聚集函数和逻辑操作符是非常有用的：
+
+```{r}
+not_cancelled %>%
+    group_by(year, month, day) %>% 
+    summarize(
+        # 平均延时
+        avg_delay1 = mean(arr_delay),
+        # 平均正延时
+        avg_delay2 = mean(arr_delay[arr_delay > 0])
+    )
+```
+
+**分布度量**sd(x),IQR(x),mad(x)
+
+* `sd()`计算均方差（也称为标准差或简写为`sd`），是分布的标准度量；`IQR()`计算四分位数极差；`mad()`计算中位绝对离差（存在离群点时，是更稳定的`IQR`值等价物）。
+
+```{r}
+# 为何到某些目的地航班的距离比其他存在更多变异
+not_cancelled %>% 
+    group_by(dest) %>% 
+    summarize(distance_sd = sd(distance)) %>% 
+    arrange(desc(distance_sd))
+```
+
+**等级度量**min(x),quantile(x, 0.25),max(x)
+

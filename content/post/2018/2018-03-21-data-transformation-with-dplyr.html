@@ -37,6 +37,7 @@ tags:
 <li><a>使用管道整合多个操作</a><ul>
 <li><a href="#-1">缺失值</a></li>
 <li><a>计数</a></li>
+<li><a>有用的汇总函数</a></li>
 </ul></li>
 </ul>
 </div>
@@ -904,5 +905,103 @@ not_cancelled %&gt;%
 ggplot(data = delays, mapping = aes(x = delay)) + 
     geom_freqpoly(binwidth = 10)</code></pre>
 <p><img src="/post/2018/2018-03-21-data-transformation-with-dplyr_files/figure-html/unnamed-chunk-35-1.svg" width="576" /></p>
+<p>哇！居然有些飞机平均延时5个小时（300分钟）。</p>
+<p>绘制平均延时下航班数目的散点图可以呈现更多的信息：</p>
+<pre class="r"><code>delays &lt;- not_cancelled %&gt;%
+    group_by(tailnum) %&gt;%
+    summarize(
+        delay = mean(arr_delay, na.rm = TRUE),
+        n = n()
+    )
+
+ggplot(data = delays, mapping = aes(x = n, y = delay)) + 
+    geom_point(alpha = 1/10)</code></pre>
+<p><img src="/post/2018/2018-03-21-data-transformation-with-dplyr_files/figure-html/unnamed-chunk-36-1.svg" width="576" /></p>
+<p>当航班数少时平均延时存在很大的变异，这并不奇怪。这个图的形状很有特征性：无论什么时候你按照组别绘制均值（或其他汇总量），你会看到变异会随着样本量的增加而减少。</p>
+<p>当你看到这种类型图时，过滤掉有很少数目的组别是很有用的，可以看到数据更多的模式和更少的极端值。这正是下面代码做的事情，它同时展示了整合<code>dplyr</code>与<code>ggplot2</code>的一种手动方式。突然从<code>%&gt;%</code>转换到<code>+</code>可能会感觉有点伤，但习惯了就会感觉很便利啦：</p>
+<pre class="r"><code>delays %&gt;%
+    filter(n &gt; 25) %&gt;%
+    ggplot(mapping = aes(x = n, y = delay)) + 
+    geom_point(alpha = 1/10)</code></pre>
+<p><img src="/post/2018/2018-03-21-data-transformation-with-dplyr_files/figure-html/unnamed-chunk-37-1.svg" width="576" /></p>
+<p>让我们看另一个例子：棒球运动中击球手的平均表现与上场击球次数的关系。这里我们使用来自<strong>Lahman</strong>包的数据计算每个选手平均成功率（击球平均得分数，击球数/尝试数）。</p>
+<p>当我画出击球手技能（用成功率衡量）与击球的机会数关系时，你会看到两种模式：</p>
+<ul>
+<li>数据点越多，变异越少</li>
+<li>选手技能和击球机会成正相关关系。这是因为队伍可以控制谁可以上场，很显然他们都会选自己最棒的选手：</li>
+</ul>
+<pre class="r"><code># 转换为tibble，看起来更舒服
+batting &lt;- as.tibble(Lahman::Batting)
+
+batters &lt;- batting %&gt;%
+    group_by(playerID) %&gt;%
+    summarize(
+        ba = sum(H, na.rm = TRUE) / sum(AB, na.rm = TRUE),
+        ab = sum(AB, na.rm = TRUE)
+    )
+
+batters %&gt;% 
+    filter(ab &gt; 100) %&gt;%
+    ggplot(mapping = aes(x = ab, y = ba)) + 
+    geom_point() +
+    geom_smooth(se = FALSE)
+## `geom_smooth()` using method = &#39;gam&#39;</code></pre>
+<p><img src="/post/2018/2018-03-21-data-transformation-with-dplyr_files/figure-html/unnamed-chunk-38-1.svg" width="576" /></p>
+</div>
+<div class="section level3">
+<h3>有用的汇总函数</h3>
+<p>仅仅使用均值、计数和求和这些函数就可以帮我做很多事情，但R提供了许多其他有用的汇总函数：</p>
+<p><strong>位置度量</strong></p>
+<ul>
+<li>我们已经使用过<code>mean()</code>函数求取平均值（总和除以长度），<code>median()</code>函数也非常有用，它会找到中位数。</li>
+</ul>
+<p>有时候整合聚集函数和逻辑操作符是非常有用的：</p>
+<pre class="r"><code>not_cancelled %&gt;%
+    group_by(year, month, day) %&gt;% 
+    summarize(
+        # 平均延时
+        avg_delay1 = mean(arr_delay),
+        # 平均正延时
+        avg_delay2 = mean(arr_delay[arr_delay &gt; 0])
+    )
+## # A tibble: 365 x 5
+## # Groups: year, month [?]
+##     year month   day avg_delay1 avg_delay2
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+##  1  2013     1     1     12.7         32.5
+##  2  2013     1     2     12.7         32.0
+##  3  2013     1     3      5.73        27.7
+##  4  2013     1     4    - 1.93        28.3
+##  5  2013     1     5    - 1.53        22.6
+##  6  2013     1     6      4.24        24.4
+##  7  2013     1     7    - 4.95        27.8
+##  8  2013     1     8    - 3.23        20.8
+##  9  2013     1     9    - 0.264       25.6
+## 10  2013     1    10    - 5.90        27.3
+## # ... with 355 more rows</code></pre>
+<p><strong>分布度量</strong>sd(x),IQR(x),mad(x)</p>
+<ul>
+<li><code>sd()</code>计算均方差（也称为标准差或简写为<code>sd</code>），是分布的标准度量；<code>IQR()</code>计算四分位数极差；<code>mad()</code>计算中位绝对离差（存在离群点时，是更稳定的<code>IQR</code>值等价物）。</li>
+</ul>
+<pre class="r"><code># 为何到某些目的地航班的距离比其他存在更多变异
+not_cancelled %&gt;% 
+    group_by(dest) %&gt;% 
+    summarize(distance_sd = sd(distance)) %&gt;% 
+    arrange(desc(distance_sd))
+## # A tibble: 104 x 2
+##    dest  distance_sd
+##    &lt;chr&gt;       &lt;dbl&gt;
+##  1 EGE         10.5 
+##  2 SAN         10.4 
+##  3 SFO         10.2 
+##  4 HNL         10.0 
+##  5 SEA          9.98
+##  6 LAS          9.91
+##  7 PDX          9.87
+##  8 PHX          9.86
+##  9 LAX          9.66
+## 10 IND          9.46
+## # ... with 94 more rows</code></pre>
+<p><strong>等级度量</strong>min(x),quantile(x, 0.25),max(x)</p>
 </div>
 </div>
