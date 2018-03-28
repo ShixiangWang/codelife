@@ -671,5 +671,138 @@ not_cancelled %>%
     arrange(desc(distance_sd))
 ```
 
-**等级度量**min(x),quantile(x, 0.25),max(x)
+**等级度量** min(x),quantile(x, 0.25),max(x)
 
+分位数是中位数更通用化的一种形式。比如，`quantile(x, 0.25)`会找到`x`中刚好大于25%的值而小于7%的值的那个数。
+
+```{r}
+# 每天第一班飞机和最后一般飞机是什么时候？
+not_cancelled %>% 
+    group_by(year, month, day) %>% 
+    summarize(
+        first = min(dep_time),
+        last = max(dep_time)
+    )
+```
+
+**位置度量** first(x), nth(x, 2), last(x)
+
+这些函数跟`x[1]`,`x[2]`,`x[length(x)]`工作相似，但是如果该位置不存在会返回一个默认值。例如，我们想找到每天起飞的第一班和最后一班飞机：
+
+```{r}
+not_cancelled %>% 
+    group_by(year, month, day) %>% 
+    summarize(
+        first_dep = first(dep_time),
+        last_dep = last(dep_time)
+    )
+```
+
+这些函数可以与基于rank的函数互补：
+
+```{r}
+not_cancelled %>% 
+    group_by(year, month, day) %>% 
+    mutate(r = min_rank(desc(dep_time))) %>% 
+    filter(r %in% range(r))
+```
+
+**计数** 
+
+你已经见过了`n()`函数，它没有任何参数并返回当前组别的大小。为了对非缺失值计数，使用`sum(!is.na(x))`。要对唯一值进行计数，使用`n_distinct()`：
+
+```{r}
+# 哪个目的地有最多的carrier
+not_cancelled %>% 
+    group_by(dest) %>% 
+    summarize(carriers = n_distinct(carrier)) %>% 
+    arrange(desc(carriers))
+```
+
+计数十分有用，如果你仅仅想要计数，`dplyr`提供了一个帮助函数：
+
+```{r}
+not_cancelled %>% 
+    count(dest)
+```
+
+你可以选择性提供一个权重变量。比如，你想用它计数（求和）一个飞机飞行的总里程：
+
+```{r}
+not_cancelled %>% 
+    count(tailnum, wt = distance)
+```
+
+**计数与逻辑值比例** sum(x > 10), mean(y == 0)
+
+当与数值函数使用时，`TRUE`被转换为`1`，`FALSE`被转换为`0`。这让`sum()`与`mean()`变得非常有用，`sum(x)`可以计算`x`中`TRUE`的数目，`mean()`可以计算比例：
+
+```{r}
+# 多少航班在5点前离开
+not_cancelled %>% 
+    group_by(year, month, day) %>% 
+    summarize(n_early = sum(dep_time < 500))
+
+
+# 延时超过1小时的航班比例是多少
+not_cancelled %>% 
+    group_by(year, month, day) %>% 
+    summarize(hour_perc = mean(arr_delay > 60))
+
+```
+
+
+#### 按多个变量分组
+
+当你按多个变量分组时，可以非常容易地对数据框汇总：
+
+```{r}
+daily <- group_by(flights, year, month, day)
+(per_day   <- summarize(daily, flights = n()))
+(per_month <- summarize(per_day, flights = sum(flights)))
+(per_year  <- summarize(per_month, flights = sum(flights)))
+
+```
+
+#### 解开分组
+
+当你想要移除分组时，使用`ungroup()`函数：
+
+```{r}
+daily %>%
+    ungroup() %>%  # 不再按日期分组
+    summarize(flights = n()) # 所有的航班
+```
+
+### 分组的Mutates
+
+分组在与汇总衔接时非常有用，但你也可以与`mutate()`和`filter()`进行便利操作：
+
+* 找到每组中最糟糕的成员：
+
+```{r}
+flights_sml %>% 
+    group_by(year, month, day) %>% 
+    filter(rank(desc(arr_delay)) < 10 )
+```
+
+* 找到大于某个阈值的所有组
+
+```{r}
+(popular_dests <- flights %>% 
+    group_by(dest) %>% 
+    filter(n() > 365))
+```
+
+* 标准化来计算每组的指标
+
+```{r}
+popular_dests %>% 
+    filter(arr_delay > 0) %>% 
+    mutate(prop_delay = arr_delay / sum(arr_delay)) %>% 
+    select(year:day, dest, arr_delay, prop_delay)
+```
+
+<center>
+（完）
+</center>
