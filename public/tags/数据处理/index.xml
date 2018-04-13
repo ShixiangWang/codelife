@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>数据处理 on Record life to a data scientist</title>
+    <link>/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/</link>
+    <description>Recent content in 数据处理 on Record life to a data scientist</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 03 Sep 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linux数据处理命令工具</title>
+      <link>/post/2017/09/03/linux%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Sun, 03 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2017/09/03/linux%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E5%B7%A5%E5%85%B7/</guid>
+      <description>参考学习《Bioinformatics. Data. Skills》，这里简要地整理下Linux用来处理数据文本的工具。具体命令详情请在Linux命令大全中搜索或者查阅其他相关资料。
+head,tail查看文档头尾。-n选项可以指定行数。
+less用来查阅文档，q退出，space bar翻页，g第一行，G最后一行，j下，k上,/&amp;lt;pattern&amp;gt;往下搜索模式，?&amp;lt;pattern&amp;gt;往上搜索模式，n前一个匹配字符，N后一个匹配字符。
+less可以用于debug，查看中间输出结果。比如
+step1 input.txt | step2 | step3 &amp;gt; output.txt # step1,2,3为程序或命令名  可以写为
+step1 input.txt | less step1 input.txt | step2 | less step1 input.txt | step2 | step3 | less  纯文本信息汇总 wc命令默认依次输出单词数、行数、总字符数。查看行数使用wc -l。 如果存在空行，空行会被计数。可以使用grep命令实现非空行计数 grep -c &amp;quot;[^ \\n\\t]&amp;quot; some_data.bed
+ls -lh以易读形式查看文件大小。
+输出文件列数：
+# -F指定分隔符，此处假定是table键分隔，默认空格键 awk -F &amp;quot;\t&amp;quot; &#39;{print NF; exit}&#39; some_data.bed  怎么去除注释的元数据行呢？怎么计数非注释行行数呢？ 可以使用tail结合awk，试试gtf(基因组注释文件)
+wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ head -n 6 Homo_sapiens.GRCh37.75.gtf #!genome-build GRCh37.p13 #!</description>
+    </item>
+    
+  </channel>
+</rss>

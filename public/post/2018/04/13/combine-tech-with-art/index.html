@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>技术与艺术结合|生成rmd文章模板 | Record life to a data scientist</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/tags/">Tags</a></li>
+      
+      <li><a href="/index.xml">Subscribe</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">技术与艺术结合|生成rmd文章模板</span></h1>
+<h2 class="author">王诗翔</h2>
+<h2 class="date">2018/04/13</h2>
+<p class="terms">
+  
+  
+  Categories: <a href="/categories/r">R</a> 
+  
+  
+  
+  Tags: <a href="/tags/rmd">Rmd</a> <a href="/tags/post">post</a> <a href="/tags/%E5%8D%9A%E5%AE%A2">博客</a> <a href="/tags/rstudio">RStudio</a> 
+  
+  
+</p>
+</div>
+
+<main>
+<div id="TOC">
+<ul>
+<li><a>构建</a></li>
+<li><a>生成</a></li>
+<li><a>预览</a></li>
+</ul>
+</div>
+
+<p>写<code>rmd</code>或<code>md</code>文章时每次都需要写头文件信息或一些初始的配置，我们可以通过预先设定模板来简化这一过程。</p>
+<section class="level2">
+<h2>构建</h2>
+<p>首先构建博文类型的模板。</p>
+<p>诗歌：</p>
+<pre><code>---
+title: &quot;诗之名&quot;
+author: &quot;王诗翔&quot;
+date: &quot;2018-04-13&quot;
+slug: to-do-a-dream
+categories:
+  - 小诗
+tags:
+  - 诗
+---
+
+&lt;center&gt;
+
+&lt;/center&gt;</code></pre>
+<p>技术文章：</p>
+<pre><code>---
+title: &quot;Put your title here&quot;
+author: 王诗翔
+date: &quot;2018-04-13&quot;
+slug: &quot;give a english slug for your post&quot;
+categories: 
+    - R
+tags:
+    - dplyr
+---
+</code></pre>
+</section>
+<section class="level2">
+<h2>生成</h2>
+<p>我尝试用<code>gif</code>图片来动态显示生成文档的过程。</p>
+<figure>
+<img src="/figures/post_GIF.gif" alt="初始化技术博文" /><figcaption>初始化技术博文</figcaption>
+</figure>
+<figure>
+<img src="/figures/poem_GIF.gif" alt="初始化诗歌博文" /><figcaption>初始化诗歌博文</figcaption>
+</figure>
+</section>
+<section class="level2">
+<h2>预览</h2>
+<p>最后看下生成的<code>rmd</code>文档的效果吧~</p>
+<figure>
+<img src="/figures/view_poem_GIF.gif" alt="预览网页" /><figcaption>预览网页</figcaption>
+</figure>
+<p>如果你有渴望，手中的工具都能创造心中的一份诗意。</p>
+<hr />
+<p>最后提供下代码：</p>
+<pre class="r"><code>new_post &lt;- function(post_name=NULL, type = c(&#39;post&#39;, &#39;poem&#39;),
+                     template_path = getwd()){
+    if(is.null(post_name)){
+        stop(&quot;A post name must be given!&quot;)
+    }
+    
+    type &lt;- match.arg(type)
+    if (type == &quot;post&quot;){
+        template_name &lt;- &quot;post_template.Rmd&quot;
+        post_path &lt;- paste0(getwd(),&quot;/content/post/2018/&quot;) # modify path for you categories
+    }
+    if (type == &quot;poem&quot;){
+        template_name &lt;- &quot;poem_template.Rmd&quot;
+        post_path &lt;- paste0(getwd(),&quot;/content/poem/&quot;)
+    }
+    
+    
+    input_file   &lt;- paste(template_path,template_name, sep=&quot;/&quot;)
+    current_time &lt;- Sys.Date()
+    out_file     &lt;- paste0(post_path, current_time, &quot;-&quot;,post_name,&quot;.Rmd&quot;)
+    fl_content   &lt;- readLines(input_file)
+    writeLines(fl_content, out_file)
+    print(&quot;New Rmarkdown post creat successfully!&quot;)
+}</code></pre>
+</section>
+
+</main>
+
+  <footer>
+  <script src="//yihui.name/js/math-code.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<script async src="//yihui.name/js/center-img.js"></script>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-108892843-2', 'auto');
+ga('send', 'pageview');
+</script>
+
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "codelife" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+
+<script>
+hljs.configure({languages: []});
+hljs.initHighlightingOnLoad();
+</script>
+
+<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+<script type="text/javascript">stLight.options({publisher: "d135f460-3fc5-4802-8169-bd08e4734a09", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+
+<script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=51zdev6aq4a&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+  
+  <hr/>
+  &copy; <a href="https://www.shixiangwang.top">Shixiang Wang</a> 2018 &ndash; 2018 保留所有版权 | <a href="https://github.com/ShixiangWang">Github</a> | <a href="https://twitter.com/ShixiangWang">Twitter</a> | <a href="https://www.jianshu.com/u/b6608e27dc74">简书</a>
+  
+  </footer>
+  </body>
+</html>
+

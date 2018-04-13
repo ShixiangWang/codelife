@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rmd on Record life to a data scientist</title>
+    <link>/tags/rmd/</link>
+    <description>Recent content in Rmd on Record life to a data scientist</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 13 Apr 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/rmd/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>技术与艺术结合|生成rmd文章模板</title>
+      <link>/post/2018/04/13/combine-tech-with-art/</link>
+      <pubDate>Fri, 13 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2018/04/13/combine-tech-with-art/</guid>
+      <description>构建生成预览写rmd或md文章时每次都需要写头文件信息或一些初始的配置，我们可以通过预先设定模板来简化这一过程。
+构建首先构建博文类型的模板。
+诗歌：
+---title: &amp;quot;诗之名&amp;quot;author: &amp;quot;王诗翔&amp;quot;date: &amp;quot;2018-04-13&amp;quot;slug: to-do-a-dreamcategories:- 小诗tags:- 诗---&amp;lt;center&amp;gt;&amp;lt;/center&amp;gt;技术文章：
+---title: &amp;quot;Put your title here&amp;quot;author: 王诗翔date: &amp;quot;2018-04-13&amp;quot;slug: &amp;quot;give a english slug for your post&amp;quot;categories: - Rtags:- dplyr---生成我尝试用gif图片来动态显示生成文档的过程。
+初始化技术博文初始化诗歌博文预览最后看下生成的rmd文档的效果吧~
+预览网页如果你有渴望，手中的工具都能创造心中的一份诗意。</description>
+    </item>
+    
+  </channel>
+</rss>

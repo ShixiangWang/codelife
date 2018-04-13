@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Shell on Record life to a data scientist</title>
+    <link>/categories/shell/</link>
+    <description>Recent content in Shell on Record life to a data scientist</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 25 Dec 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/shell/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>初识sed与awk</title>
+      <link>/post/2017/12/25/%E5%88%9D%E8%AF%86sed%E4%B8%8Eawk/</link>
+      <pubDate>Mon, 25 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2017/12/25/%E5%88%9D%E8%AF%86sed%E4%B8%8Eawk/</guid>
+      <description>学习内容：
+  学习sed编辑器 gawk编辑器入门 sed编辑器基础   shell脚本最常见的一个用途就是处理文本文件，但仅靠shell脚本命令来处理文本文件的内容有点勉为其难。如果我们想在shell脚本中处理任何类型的数据，需要熟悉Linux中的sed和gawk工具。这两个工具可以极大简化我们需要进行的数据处理任务。
+文本处理 当我们需要自动处理文本文件，又不想动用交互式文本编辑器时，sed和gawk是我们最好的选择。
+sed编辑器 也被称为流编辑器（stream editor），会在编辑器处理数据之前基于预先提供的一组规则来编辑数据流。
+sed编辑器可以根据命令来处理数据流中的数据，这些命令既可以从终端输入，也可以存储进脚本文件中。
+sed会执行以下的操作：
+ 一次从输入中读取一行数据 根据所提供的命令匹配数据 按照命令修改流中的数据 将新的数据输出到STDOUT  这一过程会重复直至处理完流中的所有数据行。
+sed命令的格式如下：
+sed options script file  选项options可以允许我们修改sed命令的行为
+   选项 描述     -e script 在处理输入时，将script中指定的命令添加到已有的命令中   -f file 在处理输入时，将file中指定的命令添加到已有的命令中   -n 不产生命令输出，使用print命令来完成输出    script参数指定用于流数据上的单个命令，如果需要多个命令，要么使用-e选项在命令行中指定，要么使用-f选项在单独的文件中指定。
+在命令行中定义编辑器命令 默认sed会将指定命令应用到STDIN输入流上，我们可以配合管道命令使用。
+wsx@wsx-laptop:~/tmp$ echo &amp;quot;This is a test&amp;quot; | sed &#39;s/test/big test/&#39; This is a big test  s命令使用斜线间指定的第二个文本来替换第一个文本字符串模式（注意是替换整个模式，支持正则匹配），比如这个例子用big test替换了test。</description>
+    </item>
+    
+    <item>
+      <title>创建和使用shell函数</title>
+      <link>/post/2017/11/26/%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8shell%E5%87%BD%E6%95%B0/</link>
+      <pubDate>Sun, 26 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2017/11/26/%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8shell%E5%87%BD%E6%95%B0/</guid>
+      <description>来源： Linux命令行与shell脚本编程大全
+内容
+  基本的脚本函数 返回值 在函数中使用变量 数组变量和函数 函数递归 创建库 在命令行上使用函数   我们可以将shell脚本代码放进函数中封装起来，这样就能在脚本中的任何地方多次使用它了。
+下面我们来逐步了解如何创建自己的shell脚本函数并在应用中使用它们。
+基本的脚本函数 函数是一个脚本代码块，我们可以为其命名并在代码中任何位置重用。要在脚本中使用该代码块，只要使用所起的函数名就行了。
+创建函数 有两种格式可以创建函数。第一种格式是使用关键字function，后跟分配给该代码块的函数名。
+funtion name{ commands }  name属性定义了赋予函数的唯一名称，commands是构成函数的一条或多条bash shell命令。
+第二种格式更接近其他编程语言中定义函数的方式：
+name() { commands }  使用函数 要使用函数，只需要像其他shell命令一样，在行中指定函数名就行了。
+wsx@wsx:~/tmp$ cat test1 #!/bin/bash # using a function in a script function func1 { echo &amp;quot;This is an example of a function&amp;quot; } count=1 while [ $count -le 5 ] do func1 count=$[ $count + 1 ] done echo &amp;quot;This is the end of the loop&amp;quot; func1 echo &amp;quot;Now, this is the end of the script&amp;quot; wsx@wsx:~/tmp$ .</description>
+    </item>
+    
+    <item>
+      <title>控制脚本</title>
+      <link>/post/2017/09/04/%E6%8E%A7%E5%88%B6%E8%84%9A%E6%9C%AC/</link>
+      <pubDate>Mon, 04 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2017/09/04/%E6%8E%A7%E5%88%B6%E8%84%9A%E6%9C%AC/</guid>
+      <description>内容
+ 处理信号 以后台模式运行脚本 禁止挂起 作业控制 修改脚本优先级 脚本执行自动化   除了在命令行界面世界运行脚本，还存在一些方法：向脚本发送信号、修改脚本的优先级以及在脚本运行时切换到运行模式。
+下面逐一讲述。
+处理信号 Linux利用信号与运行在系统中的进程进行通信。我们可以通过对脚本编程，使其在收到特定信号时执行某些命令，从而实现对脚本运行的控制。
+Linux信号 Linux和应用程序可以生成超过30个信号。下面列出最常见的系统信号。
+   信号 值 描述     1 SIGHUP 挂起进程   2 SIGINT 终止进程   3 SIGQUIT 停止进程   9 SIGKILL 无条件终止进程   15 SIGTERM 尽可能终止进程   17 SIGSTOP 无条件停止进程，但不是终止进程   18 SIGTSTP 停止或暂停进程，但不是终止进程   19 SIGCONT 继续运行停止的进程    默认情况下，bash shell会忽略收到的任何SIGQUIT和SIGTERM信号（所以交互式shell不会被终止）。但是bash shell会处理收到的SIGHUP和SIGINT信号。</description>
+    </item>
+    
+    <item>
+      <title>Linux数据处理命令工具</title>
+      <link>/post/2017/09/03/linux%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Sun, 03 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2017/09/03/linux%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E5%B7%A5%E5%85%B7/</guid>
+      <description>参考学习《Bioinformatics. Data. Skills》，这里简要地整理下Linux用来处理数据文本的工具。具体命令详情请在Linux命令大全中搜索或者查阅其他相关资料。
+head,tail查看文档头尾。-n选项可以指定行数。
+less用来查阅文档，q退出，space bar翻页，g第一行，G最后一行，j下，k上,/&amp;lt;pattern&amp;gt;往下搜索模式，?&amp;lt;pattern&amp;gt;往上搜索模式，n前一个匹配字符，N后一个匹配字符。
+less可以用于debug，查看中间输出结果。比如
+step1 input.txt | step2 | step3 &amp;gt; output.txt # step1,2,3为程序或命令名  可以写为
+step1 input.txt | less step1 input.txt | step2 | less step1 input.txt | step2 | step3 | less  纯文本信息汇总 wc命令默认依次输出单词数、行数、总字符数。查看行数使用wc -l。 如果存在空行，空行会被计数。可以使用grep命令实现非空行计数 grep -c &amp;quot;[^ \\n\\t]&amp;quot; some_data.bed
+ls -lh以易读形式查看文件大小。
+输出文件列数：
+# -F指定分隔符，此处假定是table键分隔，默认空格键 awk -F &amp;quot;\t&amp;quot; &#39;{print NF; exit}&#39; some_data.bed  怎么去除注释的元数据行呢？怎么计数非注释行行数呢？ 可以使用tail结合awk，试试gtf(基因组注释文件)
+wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ head -n 6 Homo_sapiens.GRCh37.75.gtf #!genome-build GRCh37.p13 #!</description>
+    </item>
+    
+    <item>
+      <title>Linux脚本编程——呈现数据</title>
+      <link>/post/2017/08/21/linux%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B%E5%91%88%E7%8E%B0%E6%95%B0%E6%8D%AE/</link>
+      <pubDate>Mon, 21 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2017/08/21/linux%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B%E5%91%88%E7%8E%B0%E6%95%B0%E6%8D%AE/</guid>
+      <description>本章内容：
+ 再探重定向 标准输入和输出 报告错误 丢弃数据 创建日志文件   理解输入和输出 显示输出的方法有：
+ 在显示器屏幕上输出 将输出重定向到文件中 有时将一部分数据显示在显示器上；一部分保存到文件中。  之前涉及的脚本都是以第一种方式输出。现在我们来具体了解下输入和输出。
+标准文件描述符 Linux系统将每个对象当作文件处理。着包括输入和输出进程。而标识文件对象是通过文件描述符完成的。文件描述符是一个非负整数，可以唯一标识会话中打开的文件。每个进程一次最多有九个文件描述符，bash shell保留勒前三个（0,1,2），见下表。
+   文件描述符 缩写 描述     0 STDIN 标准输入   1 STDOUT 标准输出   2 STDERR 标准错误    shell用他们将shell默认的输入和输出导向到相应的位置。
+STDIN
+在使用输入重定向符号（&amp;lt;）时，Linux会用重定向指定的文件夹来替换标准输入文件描述符。它会读取文件并提取数据，就像它是从键盘上键入的。
+wangsx@SC-201708020022:~/tmp$ cat this is a test this is a test this is a second test this is a second test  输入cat命令时，它从STDIN接受输入。输入一行，cat命令会显示一行。</description>
+    </item>
+    
+    <item>
+      <title>Shell脚本之处理用户输入</title>
+      <link>/post/2017/08/19/shell%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%A4%84%E7%90%86%E7%94%A8%E6%88%B7%E8%BE%93%E5%85%A5/</link>
+      <pubDate>Sat, 19 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2017/08/19/shell%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%A4%84%E7%90%86%E7%94%A8%E6%88%B7%E8%BE%93%E5%85%A5/</guid>
+      <description>内容：
+ 传递参数 跟踪参数 移动变量 处理选项 将选项标准化 获得用户输入   经过前面的介绍，我们已经可以掌握一些流程化的脚本编程了。但有时候，我们需要编写的脚本能够跟使用者进行交互。它可以是静态的，输入相应的参数让它运行到底；也可以是动态的，脚本根据输入参数反馈不同的信息，使用者又能根据信息调整下一步的处理，实时与程序互动。
+bash shell提供了一些不同的方法来从用户处获得数据，包括命令行参数、命令行选项以及直接从键盘读取输入的能力。下面将一一介绍实现。
+命令行参数 使用命令行参数是向脚本传递数据的最基本方法，在运行脚本的同时可以在命令行添加数据。
+比如：
+./addem 10 30  运行当前目录下名为addem脚本的同时向内部传递2个参数（10和30）。而脚本会通过特殊的变量来处理命令行参数。
+下面介绍如何使用它们。
+读入参数 bash shell会将称为位置参数的特殊变量分配给输入到命令行的所有参数：$0是程序名，$1是第一个参数，$2是第二个参数，以此类推。书上介绍直到第九个参数$9，但这个应该不是受限的。Shell最多可以输入多少个参数？一文探索了参数的个数限制，有兴趣的朋友不妨看看和试试。
+下面是单个参数的例子：
+wsx@wsx-ubuntu:~/script_learn$ cat test1.sh #!/bin/bash # using one command line parameter # factorial=1 for (( number = 1; number &amp;lt;= $1; number++ )) do factorial=$[ $factorial * $number ] done echo The factorial of $1 is $factorial wsx@wsx-ubuntu:~/script_learn$ ./test1.sh 5 The factorial of 5 is 120  我们可以像使用其他变量一样使用$1变量。shell脚本会自动分配，不需要我们做任何处理。可以看得出来这样非常方便，不过如果输入参数过多，很容易让人混淆。</description>
+    </item>
+    
+    <item>
+      <title>Linux结构化命令</title>
+      <link>/post/2017/08/11/linux%E7%BB%93%E6%9E%84%E5%8C%96%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Fri, 11 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2017/08/11/linux%E7%BB%93%E6%9E%84%E5%8C%96%E5%91%BD%E4%BB%A4/</guid>
+      <description>条件控制  内容
+ 使用if-then语句 嵌套if语句 test命令 复合条件测试 使用双方括号和双括号 case命令   许多程序要求对shell脚本中的命令施加一些逻辑流程控制。而某些命令会根据条件判断执行相应的命令，这样的命令通常叫做结构化命令。从概念上理解，结构化命令是shell脚本的逻辑结构，不像顺序执行shell脚本，而是有组织地执行命令以应对复杂任务需求。
+if-then语句 最基本的结构化命令是if-then语句，它的格式如下：
+if command then commands fi  注意，在其他编程语言中，if语句之后的对象是一个等式，等式的结果为TRUE或者FALSE，但是bash shell中的if语句是运行if后面的命令，如果该命令的退出状态码是0（命令成功执行），则运行then语句后面的命令。fi表示if语句到此结束。
+下面是一个简单的例子：
+wsx@wsx-ubuntu:~/script_learn$ cat test1.sh #! /bin/bash # testing the if statement if pwd then echo &amp;quot;It worked&amp;quot; fi wsx@wsx-ubuntu:~/script_learn$ chmod u+x test1.sh wsx@wsx-ubuntu:~/script_learn$ ./test1.sh /home/wsx/script_learn It worked  这个例子中在判断成功执行pwd命令后，执行输出文本字符串。
+大家可以尝试把pwd命令改成随便乱打的字符试试结果。它会显示报错信息，then后面的语句也不会执行。
+if-then语句的另一种形式：
+if command; then commands fi  在then部分，我们可以使用多个命令（从格式中command结尾有没有s也可以看出）。
+我们再来一个例子：在if语句中用grep命令在/etc/passwd文件中查找某个用户名当前是否在系统上使用。如果有用户使用了哪个登录名，脚本会显示一些文本信息并列出该用户HOME目录的bash文件。
+wsx@wsx-ubuntu:~/script_learn$ cat test3.sh #!/bin/bash # testing multiple commands in the then section # testuser=wsx # if grep $testuser /etc/passwd then echo &amp;quot;This is my first command&amp;quot; echo &amp;quot;This is my second command&amp;quot; echo &amp;quot;I can even put in other commands besides echo:&amp;quot; ls -a /home/$testuser/.</description>
+    </item>
+    
+    <item>
+      <title>构建基本shell脚本</title>
+      <link>/post/2017/08/11/%E6%9E%84%E5%BB%BA%E5%9F%BA%E6%9C%ACshell%E8%84%9A%E6%9C%AC/</link>
+      <pubDate>Fri, 11 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2017/08/11/%E6%9E%84%E5%BB%BA%E5%9F%BA%E6%9C%ACshell%E8%84%9A%E6%9C%AC/</guid>
+      <description>内容
+ 使用多个命令 创建脚本文件 显示消息 使用变量 输入输出重定向 管道 数学运算 退出脚本   使用多个命令 如果多个命令一起使用，可以放在一行并用分号分隔。
+wsx@wsx-ubuntu:~$ date; who 2017年 07月 26日 星期三 09:53:43 CST wsx tty7 2017-07-26 09:48 (:0)  创建脚本文件 在创建脚本文件时，必须在文件的第一行指定要使用的shell，格式为：
+#!/bin/bash  脚本文件的第一行中#后的惊叹号会告诉shell使用哪个shell来运行脚本（如果是其他编码语言脚本，像python，第一行类似）。
+其他地方的#用作注释行。
+添加名为test1的脚本文件，内容为：
+#!/bin/bash # This script displays the date and who&#39;s logged on date who  现在运行脚本，结果会是：
+wsx@wsx-ubuntu:~/script_learn$ test1 未找到 &#39;test1&#39; 命令，您要输入的是否是： 命令 &#39;testr&#39; 来自于包 &#39;python3-testrepository&#39; (main) 命令 &#39;testr&#39; 来自于包 &#39;python-testrepository&#39; (universe) 命令 &#39;test&#39; 来自于包 &#39;coreutils&#39; (main) test1：未找到命令  我们现在需要做的是让bash shell能够找到我们的脚本文件。shell会通过PATH环境变量来查找命令，我们可以看看：</description>
+    </item>
+    
+  </channel>
+</rss>

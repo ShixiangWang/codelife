@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R on Record life to a data scientist</title>
+    <link>/categories/r/</link>
+    <description>Recent content in R on Record life to a data scientist</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 14 Apr 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用yyplot绘制pubmed研究趋势</title>
+      <link>/post/2018/04/14/plot-pubmed-trends-with-yyplot/</link>
+      <pubDate>Sat, 14 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2018/04/14/plot-pubmed-trends-with-yyplot/</guid>
+      <description>在准备转博报告的过程中觉得有必要给一些研究添加Pubmed研究趋势，这个功能Y叔在它的公众号推过，所以我记了一下，之前在写开题报告的时候就用了下。今天又重新操作了一番，感觉非常不错，记录一下分享，说不定某些同胞需要。
+Y叔把这个功能整合在yyplot包中，该包发布在Github上，所以我们需要用devtools包进行安装：
+install.packages(&amp;quot;devtools&amp;quot;)devtools::install_github(&amp;quot;GuangchuangYu/yyplot&amp;quot;)这两个包的安装都有不少依赖包，所以大家安装的时候需要注意下。如果有解决不了的问题，欢迎在下方留言讨论。
+Y叔的厉害之处在于它对于ggplot2包的理解非常深，写出包和结果对象基本都直接可以用ggplot展示，或者直接用plot绘制可以得到类似的显示效果。
+这里以我探究非小细胞癌、小细胞癌和肺腺癌最近一些年发表的文章数为例子：
+library(yyplot)library(ggplot2)# 键入你要搜索的关键字term &amp;lt;- c(&amp;quot;Lung Adenocarcinoma&amp;quot;, &amp;quot;NSCLC&amp;quot;, &amp;quot;SCLC&amp;quot;)# 进行检索，指定起止年pm &amp;lt;- pubmed_trend(term, year=2001:2018)# search term: Lung Adenocarcinoma# -&amp;gt; querying year 2001# -&amp;gt; querying year 2002# -&amp;gt; querying year 2003# -&amp;gt; querying year 2004# -&amp;gt; querying year 2005# -&amp;gt; querying year 2006# -&amp;gt; querying year 2007# -&amp;gt; querying year 2008# -&amp;gt; querying year 2009# -&amp;gt; querying year 2010# -&amp;gt; querying year 2011# -&amp;gt; querying year 2012# -&amp;gt; querying year 2013# -&amp;gt; querying year 2014# -&amp;gt; querying year 2015# -&amp;gt; querying year 2016# -&amp;gt; querying year 2017# -&amp;gt; querying year 2018# search term: NSCLC# -&amp;gt; querying year 2001# -&amp;gt; querying year 2002# -&amp;gt; querying year 2003# -&amp;gt; querying year 2004# -&amp;gt; querying year 2005# -&amp;gt; querying year 2006# -&amp;gt; querying year 2007# -&amp;gt; querying year 2008# -&amp;gt; querying year 2009# -&amp;gt; querying year 2010# -&amp;gt; querying year 2011# -&amp;gt; querying year 2012# -&amp;gt; querying year 2013# -&amp;gt; querying year 2014# -&amp;gt; querying year 2015# -&amp;gt; querying year 2016# -&amp;gt; querying year 2017# -&amp;gt; querying year 2018# search term: SCLC# -&amp;gt; querying year 2001# -&amp;gt; querying year 2002# -&amp;gt; querying year 2003# -&amp;gt; querying year 2004# -&amp;gt; querying year 2005# -&amp;gt; querying year 2006# -&amp;gt; querying year 2007# -&amp;gt; querying year 2008# -&amp;gt; querying year 2009# -&amp;gt; querying year 2010# -&amp;gt; querying year 2011# -&amp;gt; querying year 2012# -&amp;gt; querying year 2013# -&amp;gt; querying year 2014# -&amp;gt; querying year 2015# -&amp;gt; querying year 2016# -&amp;gt; querying year 2017# -&amp;gt; querying year 2018# 绘图plot(pm) + theme_bw()检索返回的结果可以直接用plot绘制，这里因为我需要添加bw主题，所以导入了ggplot2包，不然可以不使用该包</description>
+    </item>
+    
+    <item>
+      <title>技术与艺术结合|生成rmd文章模板</title>
+      <link>/post/2018/04/13/combine-tech-with-art/</link>
+      <pubDate>Fri, 13 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2018/04/13/combine-tech-with-art/</guid>
+      <description>构建生成预览写rmd或md文章时每次都需要写头文件信息或一些初始的配置，我们可以通过预先设定模板来简化这一过程。
+构建首先构建博文类型的模板。
+诗歌：
+---title: &amp;quot;诗之名&amp;quot;author: &amp;quot;王诗翔&amp;quot;date: &amp;quot;2018-04-13&amp;quot;slug: to-do-a-dreamcategories:- 小诗tags:- 诗---&amp;lt;center&amp;gt;&amp;lt;/center&amp;gt;技术文章：
+---title: &amp;quot;Put your title here&amp;quot;author: 王诗翔date: &amp;quot;2018-04-13&amp;quot;slug: &amp;quot;give a english slug for your post&amp;quot;categories: - Rtags:- dplyr---生成我尝试用gif图片来动态显示生成文档的过程。
+初始化技术博文初始化诗歌博文预览最后看下生成的rmd文档的效果吧~
+预览网页如果你有渴望，手中的工具都能创造心中的一份诗意。</description>
+    </item>
+    
+    <item>
+      <title>使用dplyr进行数据转换</title>
+      <link>/post/2018/03/21/data-transformation-with-dplyr/</link>
+      <pubDate>Wed, 21 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2018/03/21/data-transformation-with-dplyr/</guid>
+      <description>准备nycflights13dplyr基础使用filter()过滤行比较逻辑操作符缺失值练习使用arrange()排列行练习使用select()选择列练习使用mutate()添加新变量有用的创造函数使用summarize()计算汇总值使用管道整合多个操作缺失值计数有用的汇总函数分组的Mutates该部分学习内容来自《R for Data Science》。
+在对数据进行可视化之前我们往往需要进行数据转换以得到可视化所需要的数据内容与格式。这里我们使用dplyr包操作2013年纽约市的航班起飞数据集（2013）。
+准备这部分我们聚焦于如何使用dplyr包，除ggplot2的另一个tidyverse核心成员。我们将使用nyclights13数据包解释关键的概念并使用ggplot2帮助理解数据。
+# 导入包library(nycflights13) # 请确保在使用前已经安装好这些包library(tidyverse)## -- Attaching packages ----------------------------- tidyverse 1.2.1 --## √ ggplot2 2.2.1 √ purrr 0.2.4## √ tibble 1.4.1 √ dplyr 0.7.4## √ tidyr 0.7.2 √ stringr 1.</description>
+    </item>
+    
+    <item>
+      <title>Hello R Markdown</title>
+      <link>/post/2015/07/23/hello-r-markdown/</link>
+      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
+      
+      <guid>/post/2015/07/23/hello-r-markdown/</guid>
+      <description>R MarkdownIncluding PlotsR MarkdownThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
+You can embed an R code chunk like this:
+summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.</description>
+    </item>
+    
+  </channel>
+</rss>

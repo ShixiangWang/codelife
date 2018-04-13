@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>文本处理 on Record life to a data scientist</title>
+    <link>/categories/%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86/</link>
+    <description>Recent content in 文本处理 on Record life to a data scientist</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 25 Dec 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>初识sed与awk</title>
+      <link>/post/2017/12/25/%E5%88%9D%E8%AF%86sed%E4%B8%8Eawk/</link>
+      <pubDate>Mon, 25 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2017/12/25/%E5%88%9D%E8%AF%86sed%E4%B8%8Eawk/</guid>
+      <description>学习内容：
+  学习sed编辑器 gawk编辑器入门 sed编辑器基础   shell脚本最常见的一个用途就是处理文本文件，但仅靠shell脚本命令来处理文本文件的内容有点勉为其难。如果我们想在shell脚本中处理任何类型的数据，需要熟悉Linux中的sed和gawk工具。这两个工具可以极大简化我们需要进行的数据处理任务。
+文本处理 当我们需要自动处理文本文件，又不想动用交互式文本编辑器时，sed和gawk是我们最好的选择。
+sed编辑器 也被称为流编辑器（stream editor），会在编辑器处理数据之前基于预先提供的一组规则来编辑数据流。
+sed编辑器可以根据命令来处理数据流中的数据，这些命令既可以从终端输入，也可以存储进脚本文件中。
+sed会执行以下的操作：
+ 一次从输入中读取一行数据 根据所提供的命令匹配数据 按照命令修改流中的数据 将新的数据输出到STDOUT  这一过程会重复直至处理完流中的所有数据行。
+sed命令的格式如下：
+sed options script file  选项options可以允许我们修改sed命令的行为
+   选项 描述     -e script 在处理输入时，将script中指定的命令添加到已有的命令中   -f file 在处理输入时，将file中指定的命令添加到已有的命令中   -n 不产生命令输出，使用print命令来完成输出    script参数指定用于流数据上的单个命令，如果需要多个命令，要么使用-e选项在命令行中指定，要么使用-f选项在单独的文件中指定。
+在命令行中定义编辑器命令 默认sed会将指定命令应用到STDIN输入流上，我们可以配合管道命令使用。
+wsx@wsx-laptop:~/tmp$ echo &amp;quot;This is a test&amp;quot; | sed &#39;s/test/big test/&#39; This is a big test  s命令使用斜线间指定的第二个文本来替换第一个文本字符串模式（注意是替换整个模式，支持正则匹配），比如这个例子用big test替换了test。</description>
+    </item>
+    
+    <item>
+      <title>Linux数据处理命令工具</title>
+      <link>/post/2017/09/03/linux%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Sun, 03 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2017/09/03/linux%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E5%B7%A5%E5%85%B7/</guid>
+      <description>参考学习《Bioinformatics. Data. Skills》，这里简要地整理下Linux用来处理数据文本的工具。具体命令详情请在Linux命令大全中搜索或者查阅其他相关资料。
+head,tail查看文档头尾。-n选项可以指定行数。
+less用来查阅文档，q退出，space bar翻页，g第一行，G最后一行，j下，k上,/&amp;lt;pattern&amp;gt;往下搜索模式，?&amp;lt;pattern&amp;gt;往上搜索模式，n前一个匹配字符，N后一个匹配字符。
+less可以用于debug，查看中间输出结果。比如
+step1 input.txt | step2 | step3 &amp;gt; output.txt # step1,2,3为程序或命令名  可以写为
+step1 input.txt | less step1 input.txt | step2 | less step1 input.txt | step2 | step3 | less  纯文本信息汇总 wc命令默认依次输出单词数、行数、总字符数。查看行数使用wc -l。 如果存在空行，空行会被计数。可以使用grep命令实现非空行计数 grep -c &amp;quot;[^ \\n\\t]&amp;quot; some_data.bed
+ls -lh以易读形式查看文件大小。
+输出文件列数：
+# -F指定分隔符，此处假定是table键分隔，默认空格键 awk -F &amp;quot;\t&amp;quot; &#39;{print NF; exit}&#39; some_data.bed  怎么去除注释的元数据行呢？怎么计数非注释行行数呢？ 可以使用tail结合awk，试试gtf(基因组注释文件)
+wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ head -n 6 Homo_sapiens.GRCh37.75.gtf #!genome-build GRCh37.p13 #!</description>
+    </item>
+    
+  </channel>
+</rss>

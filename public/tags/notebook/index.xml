@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Notebook on Record life to a data scientist</title>
+    <link>/tags/notebook/</link>
+    <description>Recent content in Notebook on Record life to a data scientist</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 21 Mar 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/notebook/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用dplyr进行数据转换</title>
+      <link>/post/2018/03/21/data-transformation-with-dplyr/</link>
+      <pubDate>Wed, 21 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2018/03/21/data-transformation-with-dplyr/</guid>
+      <description>准备nycflights13dplyr基础使用filter()过滤行比较逻辑操作符缺失值练习使用arrange()排列行练习使用select()选择列练习使用mutate()添加新变量有用的创造函数使用summarize()计算汇总值使用管道整合多个操作缺失值计数有用的汇总函数分组的Mutates该部分学习内容来自《R for Data Science》。
+在对数据进行可视化之前我们往往需要进行数据转换以得到可视化所需要的数据内容与格式。这里我们使用dplyr包操作2013年纽约市的航班起飞数据集（2013）。
+准备这部分我们聚焦于如何使用dplyr包，除ggplot2的另一个tidyverse核心成员。我们将使用nyclights13数据包解释关键的概念并使用ggplot2帮助理解数据。
+# 导入包library(nycflights13) # 请确保在使用前已经安装好这些包library(tidyverse)## -- Attaching packages ----------------------------- tidyverse 1.2.1 --## √ ggplot2 2.2.1 √ purrr 0.2.4## √ tibble 1.4.1 √ dplyr 0.7.4## √ tidyr 0.7.2 √ stringr 1.</description>
+    </item>
+    
+  </channel>
+</rss>

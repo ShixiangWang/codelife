@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pubmed_trends on Record life to a data scientist</title>
+    <link>/tags/pubmed_trends/</link>
+    <description>Recent content in Pubmed_trends on Record life to a data scientist</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 14 Apr 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/pubmed_trends/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用yyplot绘制pubmed研究趋势</title>
+      <link>/post/2018/04/14/plot-pubmed-trends-with-yyplot/</link>
+      <pubDate>Sat, 14 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2018/04/14/plot-pubmed-trends-with-yyplot/</guid>
+      <description>在准备转博报告的过程中觉得有必要给一些研究添加Pubmed研究趋势，这个功能Y叔在它的公众号推过，所以我记了一下，之前在写开题报告的时候就用了下。今天又重新操作了一番，感觉非常不错，记录一下分享，说不定某些同胞需要。
+Y叔把这个功能整合在yyplot包中，该包发布在Github上，所以我们需要用devtools包进行安装：
+install.packages(&amp;quot;devtools&amp;quot;)devtools::install_github(&amp;quot;GuangchuangYu/yyplot&amp;quot;)这两个包的安装都有不少依赖包，所以大家安装的时候需要注意下。如果有解决不了的问题，欢迎在下方留言讨论。
+Y叔的厉害之处在于它对于ggplot2包的理解非常深，写出包和结果对象基本都直接可以用ggplot展示，或者直接用plot绘制可以得到类似的显示效果。
+这里以我探究非小细胞癌、小细胞癌和肺腺癌最近一些年发表的文章数为例子：
+library(yyplot)library(ggplot2)# 键入你要搜索的关键字term &amp;lt;- c(&amp;quot;Lung Adenocarcinoma&amp;quot;, &amp;quot;NSCLC&amp;quot;, &amp;quot;SCLC&amp;quot;)# 进行检索，指定起止年pm &amp;lt;- pubmed_trend(term, year=2001:2018)# search term: Lung Adenocarcinoma# -&amp;gt; querying year 2001# -&amp;gt; querying year 2002# -&amp;gt; querying year 2003# -&amp;gt; querying year 2004# -&amp;gt; querying year 2005# -&amp;gt; querying year 2006# -&amp;gt; querying year 2007# -&amp;gt; querying year 2008# -&amp;gt; querying year 2009# -&amp;gt; querying year 2010# -&amp;gt; querying year 2011# -&amp;gt; querying year 2012# -&amp;gt; querying year 2013# -&amp;gt; querying year 2014# -&amp;gt; querying year 2015# -&amp;gt; querying year 2016# -&amp;gt; querying year 2017# -&amp;gt; querying year 2018# search term: NSCLC# -&amp;gt; querying year 2001# -&amp;gt; querying year 2002# -&amp;gt; querying year 2003# -&amp;gt; querying year 2004# -&amp;gt; querying year 2005# -&amp;gt; querying year 2006# -&amp;gt; querying year 2007# -&amp;gt; querying year 2008# -&amp;gt; querying year 2009# -&amp;gt; querying year 2010# -&amp;gt; querying year 2011# -&amp;gt; querying year 2012# -&amp;gt; querying year 2013# -&amp;gt; querying year 2014# -&amp;gt; querying year 2015# -&amp;gt; querying year 2016# -&amp;gt; querying year 2017# -&amp;gt; querying year 2018# search term: SCLC# -&amp;gt; querying year 2001# -&amp;gt; querying year 2002# -&amp;gt; querying year 2003# -&amp;gt; querying year 2004# -&amp;gt; querying year 2005# -&amp;gt; querying year 2006# -&amp;gt; querying year 2007# -&amp;gt; querying year 2008# -&amp;gt; querying year 2009# -&amp;gt; querying year 2010# -&amp;gt; querying year 2011# -&amp;gt; querying year 2012# -&amp;gt; querying year 2013# -&amp;gt; querying year 2014# -&amp;gt; querying year 2015# -&amp;gt; querying year 2016# -&amp;gt; querying year 2017# -&amp;gt; querying year 2018# 绘图plot(pm) + theme_bw()检索返回的结果可以直接用plot绘制，这里因为我需要添加bw主题，所以导入了ggplot2包，不然可以不使用该包</description>
+    </item>
+    
+  </channel>
+</rss>
