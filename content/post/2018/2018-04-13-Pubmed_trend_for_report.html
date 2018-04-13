@@ -1,0 +1,90 @@
+---
+title: "使用yyplot绘制pubmed研究趋势"
+author: 王诗翔
+date: "2018-04-14"
+slug: "plot-pubmed-trends-with-yyplot"
+categories: 
+    - R
+tags:
+    - yyplot
+    - ggplot
+    - pubmed_trends
+---
+
+
+
+<p>在准备转博报告的过程中觉得有必要给一些研究添加Pubmed研究趋势，这个功能Y叔在它的公众号推过，所以我记了一下，之前在写开题报告的时候就用了下。今天又重新操作了一番，感觉非常不错，记录一下分享，说不定某些同胞需要。</p>
+<p>Y叔把这个功能整合在<code>yyplot</code>包中，该包发布在<strong>Github</strong>上，所以我们需要用<code>devtools</code>包进行安装：</p>
+<pre class="r"><code>install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;GuangchuangYu/yyplot&quot;)</code></pre>
+<p>这两个包的安装都有不少依赖包，所以大家安装的时候需要注意下。如果有解决不了的问题，欢迎在下方留言讨论。</p>
+<p>Y叔的厉害之处在于它对于<code>ggplot2</code>包的理解非常深，写出包和结果对象基本都直接可以用<code>ggplot</code>展示，或者直接用<code>plot</code>绘制可以得到类似的显示效果。</p>
+<p>这里以我探究非小细胞癌、小细胞癌和肺腺癌最近一些年发表的文章数为例子：</p>
+<pre class="r"><code>library(yyplot)
+library(ggplot2)</code></pre>
+<pre class="r"><code># 键入你要搜索的关键字
+term &lt;- c(&quot;Lung Adenocarcinoma&quot;, &quot;NSCLC&quot;, &quot;SCLC&quot;)
+# 进行检索，指定起止年
+pm   &lt;- pubmed_trend(term, year=2001:2018)
+# search term: Lung Adenocarcinoma
+# -&gt; querying year 2001
+# -&gt; querying year 2002
+# -&gt; querying year 2003
+# -&gt; querying year 2004
+# -&gt; querying year 2005
+# -&gt; querying year 2006
+# -&gt; querying year 2007
+# -&gt; querying year 2008
+# -&gt; querying year 2009
+# -&gt; querying year 2010
+# -&gt; querying year 2011
+# -&gt; querying year 2012
+# -&gt; querying year 2013
+# -&gt; querying year 2014
+# -&gt; querying year 2015
+# -&gt; querying year 2016
+# -&gt; querying year 2017
+# -&gt; querying year 2018
+# search term: NSCLC
+# -&gt; querying year 2001
+# -&gt; querying year 2002
+# -&gt; querying year 2003
+# -&gt; querying year 2004
+# -&gt; querying year 2005
+# -&gt; querying year 2006
+# -&gt; querying year 2007
+# -&gt; querying year 2008
+# -&gt; querying year 2009
+# -&gt; querying year 2010
+# -&gt; querying year 2011
+# -&gt; querying year 2012
+# -&gt; querying year 2013
+# -&gt; querying year 2014
+# -&gt; querying year 2015
+# -&gt; querying year 2016
+# -&gt; querying year 2017
+# -&gt; querying year 2018
+# search term: SCLC
+# -&gt; querying year 2001
+# -&gt; querying year 2002
+# -&gt; querying year 2003
+# -&gt; querying year 2004
+# -&gt; querying year 2005
+# -&gt; querying year 2006
+# -&gt; querying year 2007
+# -&gt; querying year 2008
+# -&gt; querying year 2009
+# -&gt; querying year 2010
+# -&gt; querying year 2011
+# -&gt; querying year 2012
+# -&gt; querying year 2013
+# -&gt; querying year 2014
+# -&gt; querying year 2015
+# -&gt; querying year 2016
+# -&gt; querying year 2017
+# -&gt; querying year 2018</code></pre>
+<pre class="r"><code># 绘图
+plot(pm) + theme_bw()</code></pre>
+<p><img src="/post/2018/2018-04-13-Pubmed_trend_for_report_files/figure-html/unnamed-chunk-3-1.svg" width="576" /></p>
+<p>检索返回的结果可以直接用plot绘制，这里因为我需要添加bw主题，所以导入了ggplot2包，不然可以不使用该包</p>
+<p>简单吧？感觉作者本身应该还有其他的设计（<a href="http://d6179ef8.wiz03.com/share/s/3m5VXU35J4UU2CZwzV3mR1pE1xo8Mo2NRk-82SJpEo2FtL25">点击阅读</a>该功能的来龙去脉），不过这已经足够我用了。有兴趣大家不妨深入探索一番。</p>
