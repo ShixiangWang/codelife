@@ -119,7 +119,14 @@ pm   &lt;- pubmed_trend(term, year=2001:2018)
 plot(pm) + theme_bw()</code></pre>
 <p><img src="/post/2018/2018-04-13-Pubmed_trend_for_report_files/figure-html/unnamed-chunk-3-1.svg" width="576" /></p>
 <p>检索返回的结果可以直接用plot绘制，这里因为我需要添加bw主题，所以导入了ggplot2包，不然可以不使用该包</p>
+<p>注意纵坐标是一个比例，该关键字发表文章数与当年文章总数的比例值，我们也可以灵活一点，只绘制发表文章数目：</p>
+<pre class="r"><code>ggplot(pm, aes(x=year, y=number, color=TERM)) + 
+    geom_point() + geom_line() + theme_bw() + 
+    xlab(&quot;Year&quot;) + ylab(&quot;Number of Publication per Year&quot;)</code></pre>
+<p><img src="/post/2018/2018-04-13-Pubmed_trend_for_report_files/figure-html/unnamed-chunk-4-1.svg" width="576" /></p>
 <p>简单吧？感觉作者本身应该还有其他的设计（<a href="http://d6179ef8.wiz03.com/share/s/3m5VXU35J4UU2CZwzV3mR1pE1xo8Mo2NRk-82SJpEo2FtL25">点击阅读</a>该功能的来龙去脉），不过这已经足够我用了。有兴趣大家不妨深入探索一番。</p>
+<p>比如它也可以用它来画出某个研究人员，历年来发表文章的数目，比如想看Y叔每年发多少篇文章，下面这行代码给你答案：</p>
+<pre class="r"><code>pubmed_trend(&quot;Yu Guangchuang[Full Author Name]&quot;, 2010:2016)</code></pre>
 
 </main>
 
