@@ -6,10 +6,21 @@
     <description>Recent content in Posts on Record life to a data scientist</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Apr 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 15 Apr 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Python机器学习基础综合实战</title>
+      <link>/post/2018/04/15/python-basic-ml-flow/</link>
+      <pubDate>Sun, 15 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2018/04/15/python-basic-ml-flow/</guid>
+      <description>来源：《python机器学习及实践》
+以“良/恶性乳腺癌肿瘤预测”问题了解Python的基本编程元素和机器学习的基本步骤。
+点击阅读代码笔记</description>
+    </item>
     
     <item>
       <title>使用yyplot绘制pubmed研究趋势</title>
@@ -211,17 +222,6 @@ wsx@wsx-ubuntu:~/script_learn$ test1 未找到 &#39;test1&#39; 命令，您要�
       <description>R MarkdownIncluding PlotsR MarkdownThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
 You can embed an R code chunk like this:
 summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.</description>
-    </item>
-    
-    <item>
-      <title>Python机器学习基础综合实战</title>
-      <link>/post/1/01/01/python-basic-ml-flow/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/post/1/01/01/python-basic-ml-flow/</guid>
-      <description>来源：《python机器学习及实践》
-以“良/恶性乳腺癌肿瘤预测”问题了解Python的基本编程元素和机器学习的基本步骤。
-点击阅读代码笔记</description>
     </item>
     
   </channel>
