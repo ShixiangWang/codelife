@@ -1,0 +1,125 @@
+---
+title: "使用R进行探索性数据分析"
+author: 王诗翔
+date: "`r Sys.Date()`"
+slug: "R-EDA"
+categories:
+  - R
+  - 数据分析
+tags:
+  - notebook
+  - dplyr
+  - ggplot
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+该部分学习内容来自《R for Data Science》。
+
+这次我们学习可视化与处理数据来系统地探索数据——统计学家称之为**探索性数据分析**（exploratory data analysis），简称为EDA。
+
+EDA是一个迭代的圆圈：
+
+1. 生成关于你所拥有数据的问题
+2. 通过对数据可视化、转换和建模寻找答案
+3. 使用你学到的重定义你的问题或者生成新的问题
+
+相比于严格的规则与流程，EDA更像一种思考状态。在EDA的初始阶段，你可以随意探索跳入你脑海的任意一个想法。
+
+**数据清理**仅仅是EDA的一个应用，你询问是否你的数据如你所期。想要进行数据清理，你将需要使用EDA所有的工具：可视化、转换与建模。
+
+## 准备
+
+这部分我们将使用**dplyr**与**ggplot2**交互地对数据提问并回答，请确保在学习前安装好`tidyverse`包，可以顺利进行以下操作：
+
+```{r load_pkgs}
+library(tidyverse)
+```
+
+EDA的目标是理解数据，最容易实现的方式是用问题作为用具引导我们进行探索。想要提出**有质量**的问题首先必须提出**大量**问题。
+
+提问的方式没有准则可言，但两类基本问题的提出会对我们理解数据大有裨益：
+
+1. 在我的变量中有什么类型的变异？
+2. 在我的变量之间有什么共同的变异？
+
+在正式进行分析之前，允许我定义一些术语：
+
+* 一个**变量**是一个你可以测量的数量、质量或者属性
+* 一个**值**是当你测量一个变量时它的状态
+* 一个**观测**或者一个**案例**是相似条件下一组测量值的集合。一次观测通常包含多个值，每个值与不同的变量相关联。我将有时称一个观测为一个数据点
+* **表格数据**是值的集合，每一个值都与一个变量和一个观测相关联
+
+## 可视化分布
+
+你如何可视化一个变量的分布取决于该变量是连续还是分类的。如果一个变量仅能取少量的几个值，我们就说它是**分类变量**。在R中，分类变量常保存为因子或者是字符向量。想要检查分类变量的分布，使用直方图：
+
+```{r}
+ggplot(data = diamonds) + 
+    geom_bar(mapping = aes(x = cut))
+```
+
+直方图的高度显示了每一个`x`值有多少个观测。你可以使用`dplyr::count()`手动进行计算：
+
+```{r}
+diamonds %>%
+    count(cut)
+```
+
+
+或者
+
+```{r}
+diamonds %>% 
+    group_by(cut) %>% 
+    summarise(n = n())
+```
+
+想要检查连续变量的分布，使用直方图：
+
+```{r}
+ggplot(data = diamonds) + 
+    geom_histogram(mapping = aes(x=carat), binwidth = 0.5)
+```
+
+
+你也可以结合`dplyr::count()`与`ggplot2::cut_width()`手动计算这个：
+
+```{r}
+diamonds %>% 
+    count(cut_width(carat, 0.5))
+```
+
+直方图将x轴划分为相等的宽度（由bin控制），然后使用每个条形的高度来代表落入该区域观测的数目。条形的宽度非常重要，不同的设定可能揭示出数据的内在分布模式。
+
+```{r}
+smaller <- diamonds %>% 
+    filter(carat < 3)
+
+ggplot(data = smaller, mapping = aes(x = carat)) + geom_histogram(binwidth = 0.1)
+```
+
+如果你想要在同一幅图上画多个直方图，我推荐你使用`geom_freqpoly()`函数而不是`geom_histogram()`，它们的内部计算一致，但前者使用线形。
+
+```{r}
+ggplot(data = smaller, mapping = aes(x = carat, color = cut)) +
+    geom_freqpoly(binwidth = 0.1)
+```
+
+## 典型值
+
+在条形图和直方图中，高的条形显示了变量通常出现的值，而短的条形说明比较少见，而没有条形出现的地方说明变量几乎不可能会出现那个值。想要把这些信息转为有用的问题，寻找不同寻常之处：
+
+* 哪个值最常出现？为什么?
+* 哪个值很少出现？为什么？这符合你的预期吗?
+* 你可以看到任何异常的模式吗?什么可以解释它？
+
+作为一个示例，下面的直方图表明一些有趣的问题：
+
+* 为什么
