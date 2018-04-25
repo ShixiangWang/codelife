@@ -2,7 +2,7 @@
 title: "用tidyverse进行EDA"
 author: 王诗翔
 date: "`r Sys.Date()`"
-slug: "R-EDA"
+slug: "r-eda"
 categories:
   - R
   - 数据分析
