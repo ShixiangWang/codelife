@@ -6,24 +6,24 @@
     <description>Recent content in Home on Record life to a data scientist</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 24 Apr 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 25 Apr 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>使用R进行探索性数据分析</title>
-      <link>/post/2018/04/24/r-eda/</link>
-      <pubDate>Tue, 24 Apr 2018 00:00:00 +0000</pubDate>
+      <title>用tidyverse进行EDA</title>
+      <link>/post/2018/04/25/r-eda/</link>
+      <pubDate>Wed, 25 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/2018/04/24/r-eda/</guid>
-      <description>准备可视化分布典型值该部分学习内容来自《R for Data Science》。
+      <guid>/post/2018/04/25/r-eda/</guid>
+      <description>准备可视化分布典型值不寻常的值练习缺失值共变化一个分类变量和连续变量两个分类变量该部分学习内容来自《R for Data Science》。
 这次我们学习可视化与处理数据来系统地探索数据——统计学家称之为探索性数据分析（exploratory data analysis），简称为EDA。
 EDA是一个迭代的圆圈：
 生成关于你所拥有数据的问题通过对数据可视化、转换和建模寻找答案使用你学到的重定义你的问题或者生成新的问题相比于严格的规则与流程，EDA更像一种思考状态。在EDA的初始阶段，你可以随意探索跳入你脑海的任意一个想法。
 数据清理仅仅是EDA的一个应用，你询问是否你的数据如你所期。想要进行数据清理，你将需要使用EDA所有的工具：可视化、转换与建模。
 准备这部分我们将使用dplyr与ggplot2交互地对数据提问并回答，请确保在学习前安装好tidyverse包，可以顺利进行以下操作：
-library(tidyverse)## -- Attaching packages -------------------------------------------------------------------- tidyverse 1.2.1 --## &amp;lt;U+221A&amp;gt; ggplot2 2.2.1 &amp;lt;U+221A&amp;gt; purrr 0.2.4## &amp;lt;U+221A&amp;gt; tibble 1.4.1 &amp;lt;U+221A&amp;gt; dplyr 0.7.4## &amp;lt;U+221A&amp;gt; tidyr 0.8.0 &amp;lt;U+221A&amp;gt; stringr 1.2.0## &amp;lt;U+221A&amp;gt; readr 1.1.1 &amp;lt;U+221A&amp;gt; forcats 0.2.0## Warning: 绋嬭緫鍖�&amp;#39;tidyr&amp;#39;鏄敤R鐗堟湰3.4.4 鏉ュ缓閫犵殑## -- Conflicts ----------------------------------------------------------------------- tidyverse_conflicts() --## x dplyr::filter() masks stats::filter()## x dplyr::lag() masks stats::lag()EDA的目标是理解数据，最容易实现的方式是用问题作为用具引导我们进行探索。想要提出有质量的问题首先必须提出大量问题。</description>
+library(tidyverse)## -- Attaching packages -------------------------------------------------------------------- tidyverse 1.2.1 --## &amp;lt;U+221A&amp;gt; ggplot2 2.2.1 &amp;lt;U+221A&amp;gt; purrr 0.2.4## &amp;lt;U+221A&amp;gt; tibble 1.4.2 &amp;lt;U+221A&amp;gt; dplyr 0.7.4## &amp;lt;U+221A&amp;gt; tidyr 0.8.0 &amp;lt;U+221A&amp;gt; stringr 1.3.0## &amp;lt;U+221A&amp;gt; readr 1.1.1 &amp;lt;U+221A&amp;gt; forcats 0.3.0## -- Conflicts ----------------------------------------------------------------------- tidyverse_conflicts() --## x dplyr::filter() masks stats::filter()## x dplyr::lag() masks stats::lag()EDA的目标是理解数据，最容易实现的方式是用问题作为用具引导我们进行探索。想要提出有质量的问题首先必须提出大量问题。</description>
     </item>
     
     <item>
