@@ -44,7 +44,5 @@ rsconnect/
 #poem_template.Rmd
 #post_template.Rmd
 
-# rm html in content dir
-content/poem/*.html
-content/post/*.html
-content/post/2018/*.html
+# 
+public/
